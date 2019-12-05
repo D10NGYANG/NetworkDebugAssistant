@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':dialog'
 rootProject.name='NetworkDebugAssistant'

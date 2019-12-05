@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Network Debug Assistant</string>
+
+    <!-- 普通常用文本 -->
+    <string name="sure">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="notice">Notice</string>
+    <string name="prompt">Prompt</string>
+    <string name="delete">Delete</string>
+    <string name="modify">Edit</string>
+    <string name="save">Save</string>
+    <string name="execute">Run</string>
+
+    <!-- MainActivity -->
+    <string name="main_tittle">Network Debug Assistant - DL</string>
+    <string name="main_udp">UDP Test</string>
+    <string name="main_tcp_client">TCP Client</string>
+    <string name="main_tcp_server">TCP Server</string>
+
+    <!-- SettingActivity -->
+    <string name="setting_tittle">Setting</string>
+    <string name="setting_version">Version Info</string>
+</resources>

@@ -1,0 +1,7 @@
+<resources>
+    <!-- VersionInfoDialog -->
+    <string name="version">版本：</string>
+    <string name="created_time">时间：</string>
+    <string name="author">作者：</string>
+    <string name="content">内容：</string>
+</resources>

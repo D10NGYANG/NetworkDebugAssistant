@@ -1,3 +1,23 @@
 <resources>
-    <string name="app_name">NetworkDebugAssistant</string>
+    <string name="app_name">Network Debug Assistant</string>
+
+    <!-- 普通常用文本 -->
+    <string name="sure">确定</string>
+    <string name="cancel">取消</string>
+    <string name="notice">注意</string>
+    <string name="prompt">提示</string>
+    <string name="delete">删除</string>
+    <string name="modify">编辑</string>
+    <string name="save">保存</string>
+    <string name="execute">执行</string>
+
+    <!-- MainActivity -->
+    <string name="main_tittle">网络调试助手 - DL</string>
+    <string name="main_udp">UDP测试</string>
+    <string name="main_tcp_client">TCP客户端</string>
+    <string name="main_tcp_server">TCP服务器</string>
+
+    <!-- SettingActivity -->
+    <string name="setting_tittle">设置</string>
+    <string name="setting_version">版本信息</string>
 </resources>
