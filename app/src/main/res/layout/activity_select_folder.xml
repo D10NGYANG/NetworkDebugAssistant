@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="curPath"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray"
+        tools:context=".activity.SelectFolderActivity">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@mipmap/icon_back"
+            app:title="@string/folder_tittle"
+            app:titleTextColor="@android:color/white" />
+
+        <ImageButton
+            android:id="@+id/btn_new_folder"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:onClick="newFolder"
+            android:scaleType="centerInside"
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+            app:layout_constraintEnd_toEndOf="@+id/toolbar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/icon_new_folder" />
+
+        <TextView
+            android:id="@+id/txt_cur_path"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/normalBgColor"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:text="@{curPath}"
+            android:textColor="@android:color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_cur_path" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            android:onClick="cancel"
+            app:backgroundTint="@color/text_normal_color"
+            app:layout_constraintBottom_toTopOf="@+id/fab_sure"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@mipmap/icon_cancel" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_sure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:onClick="sure"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@mipmap/icon_select" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

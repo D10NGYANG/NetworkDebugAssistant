@@ -45,6 +45,16 @@ class EditDialog constructor(
     }
 
     /**
+     * 设置输入类型
+     * @param tag 标签
+     * @param type 类型
+     */
+    fun setInputType(tag: String, type: Int) : EditDialog {
+        edtMap[tag]?.edtText?.inputType = type
+        return this
+    }
+
+    /**
      * 获取输入文本
      * @param tag 标签
      */

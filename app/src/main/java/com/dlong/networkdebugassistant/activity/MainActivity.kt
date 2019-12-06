@@ -1,6 +1,7 @@
 package com.dlong.networkdebugassistant.activity
 
 import android.os.Bundle
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.databinding.ActivityMainBinding
@@ -16,5 +17,11 @@ class MainActivity : BaseActivity() {
         // 左上角点击事件
         setSupportActionBar(binding.toolbar)
         binding.toolbar.setNavigationOnClickListener { clearGoTo(SettingActivity::class.java) }
+    }
+
+    fun goAct(view: View) {
+        when(view.id) {
+            R.id.btn_udp -> clearGoTo(UdpBroadActivity::class.java)
+        }
     }
 }

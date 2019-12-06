@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="config"
+            type="com.dlong.networkdebugassistant.bean.UdpBroadConfiguration" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray"
+        tools:context=".activity.UdpBroadSettingActivity">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@mipmap/icon_back"
+            app:title="@string/udp_broad_setting_tittle"
+            app:titleTextColor="@android:color/white" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/setting_internet"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp"
+                    android:textStyle="italic" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    app:cardBackgroundColor="@color/normalBgColor"
+                    app:cardCornerRadius="5dp">
+
+                    <Button
+                        android:id="@+id/btn_set_port"
+                        style="@style/Base.Widget.AppCompat.Button.Borderless"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="setPort" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@string/port"
+                            android:textColor="@android:color/black" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text='@{config.port + ""}'
+                            android:textColor="@android:color/black" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerInside"
+                            app:srcCompat="@mipmap/icon_next" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/setting_send"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp"
+                    android:textStyle="italic" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    app:cardBackgroundColor="@color/normalBgColor"
+                    app:cardCornerRadius="5dp"
+                    app:contentPadding="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <Switch
+                            android:id="@+id/sw_send_hex"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:layout_weight="1"
+                            android:checked="@{config.sendHex}"
+                            android:text="@string/setting_is_hex" />
+
+                        <Switch
+                            android:id="@+id/sw_auto_add_check"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:layout_weight="1"
+                            android:checked="@{config.autoAddHexCheck}"
+                            android:text="@string/setting_is_auto_add_check" />
+
+                        <Switch
+                            android:id="@+id/sw_auto_send_loop"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:layout_weight="1"
+                            android:checked="@{config.autoLoopSend}"
+                            android:text="@string/setting_is_auto_send_loop" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="1px"
+                    android:layout_marginRight="10dp"
+                    app:cardBackgroundColor="@color/normalBgColor"
+                    app:cardCornerRadius="5dp">
+
+                    <Button
+                        android:id="@+id/btn_set_loop_send_time"
+                        style="@style/Base.Widget.AppCompat.Button.Borderless"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="setLoopTime" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@string/setting_auto_send_loop_time"
+                            android:textColor="@android:color/black" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text='@{config.autoSendTime + ""}'
+                            android:textColor="@android:color/black" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerInside"
+                            app:srcCompat="@mipmap/icon_next" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/setting_receive"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp"
+                    android:textStyle="italic" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    app:cardBackgroundColor="@color/normalBgColor"
+                    app:cardCornerRadius="5dp"
+                    app:contentPadding="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <Switch
+                            android:id="@+id/sw_receive_hex"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:layout_weight="1"
+                            android:checked="@{config.receiveHex}"
+                            android:text="@string/setting_is_hex" />
+
+                        <Switch
+                            android:id="@+id/sw_show_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:layout_weight="1"
+                            android:checked="@{config.receiveShowTime}"
+                            android:text="@string/setting_is_show_time" />
+
+                        <Switch
+                            android:id="@+id/sw_show_ip_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:layout_weight="1"
+                            android:checked="@{config.receiveShowIpAddress}"
+                            android:text="@string/setting_is_show_ip_address" />
+
+                        <Switch
+                            android:id="@+id/sw_show_port"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
+                            android:layout_weight="1"
+                            android:checked="@{config.receiveShowPort}"
+                            android:text="@string/setting_is_show_port" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="1px"
+                    android:layout_marginRight="10dp"
+                    app:cardBackgroundColor="@color/normalBgColor"
+                    app:cardCornerRadius="5dp">
+
+                    <Button
+                        android:id="@+id/btn_set_save_local_path"
+                        style="@style/Base.Widget.AppCompat.Button.Borderless"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:onClick="openLocalPathManager" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="8dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="@string/setting_local_save_path"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text='@{config.receiveSaveLocalPath}'
+                            android:textColor="@android:color/black" />
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="1px"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:cardBackgroundColor="@color/normalBgColor"
+                    app:cardCornerRadius="5dp">
+
+                    <Button
+                        android:id="@+id/btn_save_local"
+                        style="@style/Base.Widget.AppCompat.Button.Borderless"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/setting_out_put_local"
+                        android:textColor="@color/colorAccent" />
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

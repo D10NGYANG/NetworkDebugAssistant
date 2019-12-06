@@ -13,11 +13,52 @@
 
     <!-- MainActivity -->
     <string name="main_tittle">网络调试助手 - DL</string>
-    <string name="main_udp">UDP测试</string>
+    <string name="main_udp_broad">UDP广播</string>
+    <string name="main_udp_multi">UDP组播</string>
     <string name="main_tcp_client">TCP客户端</string>
     <string name="main_tcp_server">TCP服务器</string>
 
     <!-- SettingActivity -->
     <string name="setting_tittle">设置</string>
     <string name="setting_version">版本信息</string>
+
+    <!-- UdpBroadActivity -->
+    <string name="udp_broad_tittle">UDP广播</string>
+    <string name="clean">清除</string>
+    <string name="history">历史</string>
+    <string name="send">发送</string>
+
+    <!-- UdpBroadSettingActivity -->
+    <string name="udp_broad_setting_tittle">UDP广播配置</string>
+    <string name="setting_internet">网络设置</string>
+    <string name="port">端口</string>
+    <string name="setting_send">发送设置</string>
+    <string name="setting_is_hex">Ascii / Hex</string>
+    <string name="setting_is_auto_add_check">是否自动添加校验位</string>
+    <string name="setting_is_auto_send_loop">是否自动循环发送</string>
+    <string name="setting_auto_send_loop_time">循环发送间隔时间（毫秒）</string>
+    <string name="setting_receive">接收设置</string>
+    <string name="setting_is_show_time">是否显示接收时间</string>
+    <string name="setting_is_show_ip_address">是否显示IP地址</string>
+    <string name="setting_is_show_port">是否显示端口</string>
+    <string name="setting_local_save_path">本地存储地址</string>
+    <string name="setting_out_put_local">导出接收数据到本地</string>
+    <string name="please_input_port">请输入端口号</string>
+    <string name="input_port_can_not_empty">端口号不能为空</string>
+    <string name="input_port_can_not_over_range">端口号范围为0～65535</string>
+    <string name="please_input_loop_time">请输入循环发送时间间隔 ms</string>
+    <string name="input_loop_time_can_not_empty">循环发送时间间隔不能为空</string>
+    <string name="input_loop_time_can_not_over_range">循环发送时间间隔范围为1～999999999</string>
+
+    <!-- SelectFolderActivity -->
+    <string name="folder_tittle">选择存储路径</string>
+    <string name="folder_son_num">个子项</string>
+    <string name="folder_create_new_folder">创建新的文件夹</string>
+    <string name="please_input_new_folder_name">请输入新的文件夹名称</string>
+    <string name="input_new_folder_name_can_not_empty">文件夹名称不能为空</string>
+    <string name="input_new_folder_name_can_not_over_range">文件夹名称长度最大为50个字符</string>
+    <string name="folder_edit_tips">您可以对文件夹【**】进行如下操作</string>
+    <string name="folder_edit_name">重命名</string>
+    <string name="folder_edit_new_folder_name">重命名文件夹【**】</string>
+    <string name="folder_delete_sure">您确定删除【**】文件夹吗？</string>
 </resources>

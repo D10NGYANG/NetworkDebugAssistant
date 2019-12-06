@@ -13,11 +13,34 @@
 
     <!-- MainActivity -->
     <string name="main_tittle">Network Debug Assistant - DL</string>
-    <string name="main_udp">UDP Test</string>
+    <string name="main_udp_broad">UDP Broadcast</string>
+    <string name="main_udp_multi">UDP Multicast</string>
     <string name="main_tcp_client">TCP Client</string>
     <string name="main_tcp_server">TCP Server</string>
 
     <!-- SettingActivity -->
     <string name="setting_tittle">Setting</string>
     <string name="setting_version">Version Info</string>
+
+    <!-- UdpBroadActivity -->
+    <string name="udp_broad_tittle">UDP Broadcast</string>
+    <string name="clean">Clean</string>
+    <string name="history">History</string>
+    <string name="send">Send</string>
+
+    <!-- UdpBroadSettingActivity -->
+    <string name="udp_broad_setting_tittle">UDP Broadcast Setting</string>
+    <string name="setting_internet">Internet Setting</string>
+    <string name="port">Port</string>
+    <string name="setting_send">Send Setting</string>
+    <string name="setting_is_hex">Ascii / Hex</string>
+    <string name="setting_is_auto_add_check">Auto add check code</string>
+    <string name="setting_is_auto_send_loop">Auto loop send</string>
+    <string name="setting_auto_send_loop_time">Loop send interval (ms)</string>
+    <string name="setting_receive">Receive Setting</string>
+    <string name="setting_is_show_time">Show time</string>
+    <string name="setting_is_show_ip_address">Show IP address</string>
+    <string name="setting_is_show_port">Show port</string>
+    <string name="setting_local_save_path">Local storage address</string>
+    <string name="setting_out_put_local">Export received data to local</string>
 </resources>
