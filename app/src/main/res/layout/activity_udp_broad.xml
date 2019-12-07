@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="txtReceive"
-            type="String" />
+            name="isConnect"
+            type="boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,119 +42,146 @@
             app:layout_constraintTop_toTopOf="@+id/toolbar"
             app:srcCompat="@mipmap/icon_menu" />
 
+        <ImageButton
+            android:id="@+id/btn_connect"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:onClick="connectOrNot"
+            android:scaleType="centerInside"
+            android:src='@mipmap/icon_connect'
+            app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+            app:layout_constraintEnd_toStartOf="@+id/btn_setting"
+            app:layout_constraintTop_toTopOf="@+id/toolbar" />
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
+            android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/edt_send"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:drawable/editbox_background_normal"
+                    android:ems="10"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
+                    android:lineSpacingExtra="8sp"
+                    android:minLines="2"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_send_clean"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="clean"
+                        android:text="@string/clean" />
+
+                    <Button
+                        android:id="@+id/btn_send_history"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:onClick="openHistory"
+                        android:text="@string/history" />
+
+                    <Switch
+                        android:id="@+id/sw_loop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:showText="true"
+                        android:textOff="1"
+                        android:textOn="∞" />
+
+                    <Button
+                        android:id="@+id/btn_send"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/colorAccent"
+                        android:onClick="send"
+                        android:text="@string/send"
+                        android:textColor="@android:color/white" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="2"
-                app:cardBackgroundColor="@color/normalBgColor"
-                app:cardCornerRadius="5dp"
-                app:contentPadding="5dp">
+                android:layout_marginBottom="10dp"
+                android:src="@color/text_tittle_color" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <EditText
-                        android:id="@+id/edt_send"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@android:drawable/editbox_background_normal"
-                        android:ems="10"
-                        android:gravity="start|top"
-                        android:inputType="textMultiLine" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/btn_send_clean"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:onClick="clean"
-                            android:text="@string/clean" />
-
-                        <Button
-                            android:id="@+id/btn_send_history"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:onClick="openHistory"
-                            android:text="@string/history" />
-
-                        <Button
-                            android:id="@+id/btn_send"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:backgroundTint="@color/colorAccent"
-                            android:onClick="send"
-                            android:text="@string/send"
-                            android:textColor="@android:color/white" />
-
-                    </LinearLayout>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="@color/normalBgColor"
-                app:cardCornerRadius="5dp"
-                app:contentPadding="5dp">
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_receive"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:drawable/editbox_background_normal"
+                    android:enabled="true"
+                    android:fadeScrollbars="false"
+                    android:focusable="false"
+                    android:gravity="start|top"
+                    android:longClickable="true"
+                    android:scrollbarAlwaysDrawHorizontalTrack="true"
+                    android:scrollbarAlwaysDrawVerticalTrack="true"
+                    android:scrollbarStyle="outsideOverlay"
+                    android:scrollbars="vertical"
+                    android:textIsSelectable="false" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/edt_receive"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@android:drawable/editbox_background_normal"
-                        android:gravity="start|top"
-                        android:inputType="textMultiLine"
-                        android:text="@{txtReceive}"
-                        android:scrollbarAlwaysDrawHorizontalTrack="true"
-                        android:scrollbarAlwaysDrawVerticalTrack="true"
-                        android:scrollbarStyle="outsideOverlay"
-                        android:scrollbars="horizontal|vertical" />
-
-                    <LinearLayout
+                    <Button
+                        android:id="@+id/btn_receive_clean"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_weight="1"
+                        android:onClick="clean"
+                        android:text="@string/clean" />
 
-                        <Button
-                            android:id="@+id/btn_receive_clean"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:onClick="clean"
-                            android:text="@string/clean" />
-                    </LinearLayout>
+                    <Button
+                        android:id="@+id/btn_copy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="copy"
+                        android:text="@string/copy" />
+
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,7 @@
 package com.dlong.networkdebugassistant.utils
 
+import android.util.Log
+import java.util.regex.Pattern
 import kotlin.experimental.and
 
 /**
@@ -63,4 +65,36 @@ object StringUtils {
         return result.toString()
     }
 
+    /**
+     * 将输入的16进制文本转换成byte数组
+     */
+    fun getByteFromHex(text: String) : ByteArray {
+        // 使用正则截取16进制相关数字和字母
+        val reg = "[^a-fA-F0-9]"
+        val pat = Pattern.compile(reg)
+        val mat = pat.matcher(text)
+        var value = mat.replaceAll("").trim()
+        if (value.length % 2 != 0) {
+            value = "${value}0"
+        }
+        val chars = value.toCharArray()
+        val list = mutableListOf<Byte>()
+        for (i in chars.indices step 2) {
+            list.add(Integer.parseInt("${chars[i]}${chars[i + 1]}", 16).toByte())
+        }
+        return list.toByteArray()
+    }
+
+    /**
+     * 判断文本是否为纯数字
+     */
+    fun isNumeric(text: String) : Boolean {
+        val chars = text.toCharArray()
+        for (char in chars.iterator()) {
+            if (char.toInt() < 48 || char.toInt() > 57) {
+                return false
+            }
+        }
+        return true
+    }
 }

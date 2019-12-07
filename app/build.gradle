@@ -42,4 +42,8 @@ dependencies {
     implementation project(path: ':dialog')
 
     implementation 'com.github.D10NGYANG:JsonEntityManager:1.0'
+
+    // 调试工具
+    debugImplementation 'com.simple:spiderman:1.1.0'
+    releaseImplementation 'com.simple:spiderman-no-op:1.1.0'
 }

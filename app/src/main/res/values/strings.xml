@@ -10,6 +10,7 @@
     <string name="modify">编辑</string>
     <string name="save">保存</string>
     <string name="execute">执行</string>
+    <string name="copy">复制</string>
 
     <!-- MainActivity -->
     <string name="main_tittle">网络调试助手 - DL</string>
@@ -31,7 +32,9 @@
     <!-- UdpBroadSettingActivity -->
     <string name="udp_broad_setting_tittle">UDP广播配置</string>
     <string name="setting_internet">网络设置</string>
-    <string name="port">端口</string>
+    <string name="local_port">本地端口</string>
+    <string name="target_ip_address">目标地址</string>
+    <string name="target_port">目标端口</string>
     <string name="setting_send">发送设置</string>
     <string name="setting_is_hex">Ascii / Hex</string>
     <string name="setting_is_auto_add_check">是否自动添加校验位</string>
@@ -42,13 +45,19 @@
     <string name="setting_is_show_ip_address">是否显示IP地址</string>
     <string name="setting_is_show_port">是否显示端口</string>
     <string name="setting_local_save_path">本地存储地址</string>
-    <string name="setting_out_put_local">导出接收数据到本地</string>
+    <string name="setting_is_auto_save_local">是否自动保存接收数据到本地</string>
     <string name="please_input_port">请输入端口号</string>
     <string name="input_port_can_not_empty">端口号不能为空</string>
     <string name="input_port_can_not_over_range">端口号范围为0～65535</string>
+    <string name="please_input_ip_address">请输入IP地址（eg: 255.255.255.255）</string>
+    <string name="input_ip_address_wrong_format">IP地址格式不正确</string>
     <string name="please_input_loop_time">请输入循环发送时间间隔 ms</string>
     <string name="input_loop_time_can_not_empty">循环发送时间间隔不能为空</string>
     <string name="input_loop_time_can_not_over_range">循环发送时间间隔范围为1～999999999</string>
+    <string name="connect_success">连接成功！</string>
+    <string name="disconnect_success">已断开连接!</string>
+    <string name="disconnect_ing">正在断开连接…</string>
+    <string name="copy_to_clip_success">已将接收文本复制到系统粘贴板！</string>
 
     <!-- SelectFolderActivity -->
     <string name="folder_tittle">选择存储路径</string>

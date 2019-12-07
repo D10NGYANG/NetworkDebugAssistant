@@ -1,10 +1,11 @@
 package com.dlong.networkdebugassistant.utils
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.Serializable
-import java.lang.StringBuilder
 
 /**
  * @author D10NG
@@ -57,5 +58,14 @@ object AppUtils {
         val vrm = VersionReadMe()
         vrm.parseFromJson(versionObj, version)
         return vrm
+    }
+
+    /**
+     * 复制字符串到系统剪贴板
+     */
+    fun copyToClipboard(context: Context, text: String) {
+        val clip = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val data = ClipData.newPlainText("receive", text)
+        clip.setPrimaryClip(data)
     }
 }
