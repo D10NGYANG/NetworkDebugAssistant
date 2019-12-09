@@ -1,5 +1,6 @@
 package com.dlong.networkdebugassistant.activity
 
+import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -9,7 +10,15 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.dlong.networkdebugassistant.app.BaseHandler
+import com.dlong.networkdebugassistant.bean.ReceiveInfo
+import com.dlong.networkdebugassistant.utils.DateUtils
+import com.dlong.networkdebugassistant.utils.StringUtils
 import com.google.android.material.snackbar.Snackbar
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStreamWriter
+import java.lang.StringBuilder
 
 /**
  * @author D10NG
@@ -62,5 +71,42 @@ open class BaseActivity : AppCompatActivity(), BaseHandler.BaseHandlerCallBack {
 
     fun showSnackBar(view: View, msg: String) {
         Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show()
+    }
+
+    // 保存数据到本地
+    fun saveReceiveDataToLocal(receive: ReceiveInfo, path: String, isHex: Boolean) {
+        // 检查权限
+        if (!checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+            !checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) return
+        // 检查路径是否存在
+        val parentPath = File(path)
+        if (!parentPath.exists()) return
+        // 创建以日期为参数的txt文本
+        val fileName = "receive_text_${DateUtils.getCurDateStr("yyyy_MM_dd")}.txt"
+        val file = File("$path/$fileName")
+        if (!file.exists()) {
+            file.createNewFile()
+        }
+        // 创建新加文本
+        val builder = StringBuilder()
+        builder.append("[")
+        builder.append(DateUtils.getDateStr(receive.time, "yyyy-MM-dd hh:mm:ss"))
+        builder.append("][")
+        builder.append(receive.ipAddress).append(":")
+        builder.append(receive.port).append("]")
+        if (isHex) {
+            for (byte in receive.byteData.iterator()) {
+                builder.append(StringUtils.upToNString(byte.toUInt().toString(16), 2))
+                builder.append(" ")
+            }
+        } else {
+            builder.append(String(receive.byteData, 0, receive.byteData.size))
+        }
+        builder.append("\r\n")
+        // 写入文本内容
+        val outputStream = FileOutputStream(file, true)
+        val writer = BufferedWriter(OutputStreamWriter(outputStream))
+        writer.write(builder.toString())
+        writer.close()
     }
 }

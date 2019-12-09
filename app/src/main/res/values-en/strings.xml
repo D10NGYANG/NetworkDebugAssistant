@@ -10,6 +10,7 @@
     <string name="modify">Edit</string>
     <string name="save">Save</string>
     <string name="execute">Run</string>
+    <string name="copy">Copy</string>
 
     <!-- MainActivity -->
     <string name="main_tittle">Network Debug Assistant - DL</string>
@@ -31,7 +32,9 @@
     <!-- UdpBroadSettingActivity -->
     <string name="udp_broad_setting_tittle">UDP Broadcast Setting</string>
     <string name="setting_internet">Internet Setting</string>
-    <string name="port">Port</string>
+    <string name="local_port">Local port</string>
+    <string name="target_ip_address">Target IP address</string>
+    <string name="target_port">Target port</string>
     <string name="setting_send">Send Setting</string>
     <string name="setting_is_hex">Ascii / Hex</string>
     <string name="setting_is_auto_add_check">Auto add check code</string>
@@ -42,5 +45,32 @@
     <string name="setting_is_show_ip_address">Show IP address</string>
     <string name="setting_is_show_port">Show port</string>
     <string name="setting_local_save_path">Local storage address</string>
-    <string name="setting_out_put_local">Export received data to local</string>
+    <string name="setting_is_auto_save_local">Auto save receive data to local</string>
+    <string name="please_input_port">Please input port</string>
+    <string name="input_port_can_not_empty">Port number cannot be empty</string>
+    <string name="input_port_can_not_over_range">The port number ranges from 0 to 65535.</string>
+    <string name="please_input_ip_address">Please input the IP address (eg: 255.255.255.255)</string>
+    <string name="input_ip_address_wrong_format">IP address format is wrong</string>
+    <string name="please_input_loop_time">Please input cyclic sending interval ms</string>
+    <string name="input_loop_time_can_not_empty">The cyclic sending interval cannot be empty</string>
+    <string name="input_loop_time_can_not_over_range">The interval of cyclic sending is 1 ～ 999999999</string>
+    <string name="connect_success">Connect success！</string>
+    <string name="disconnect_success">Disconnected!</string>
+    <string name="disconnect_ing">Disconnecting…</string>
+    <string name="copy_to_clip_success">Received text copied to system pasteboard！</string>
+
+    <!-- SelectFolderActivity -->
+    <string name="folder_tittle">Select storage path</string>
+    <string name="folder_son_num">children</string>
+    <string name="folder_create_new_folder">Create new folder</string>
+    <string name="please_input_new_folder_name">Please input a new folder name</string>
+    <string name="input_new_folder_name_can_not_empty">Folder name cannot be empty</string>
+    <string name="input_new_folder_name_can_not_over_range">Folder name can be up to 50 characters long</string>
+    <string name="folder_edit_tips">You can perform the following operations on the folder [**]</string>
+    <string name="folder_edit_name">Rename</string>
+    <string name="folder_edit_new_folder_name">Rename folder [**]</string>
+    <string name="folder_delete_sure">Are you sure you want to delete the [**] folder?</string>
+
+    <!-- HistoryActivity -->
+    <string name="history_tittle">Send History</string>
 </resources>

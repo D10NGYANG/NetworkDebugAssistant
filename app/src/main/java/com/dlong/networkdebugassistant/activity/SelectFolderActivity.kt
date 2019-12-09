@@ -41,17 +41,7 @@ class SelectFolderActivity : BaseActivity() {
 
         // 设置返回按钮
         setSupportActionBar(binding.toolbar)
-        binding.toolbar.setNavigationOnClickListener {
-            // 返回上一页，如果到了尽头就关闭页面
-            val file = File(binding.curPath?: baseDirectory)
-            val parentPath = file.parent
-            if (parentPath == null) {
-                showSnackBar(binding.root, "已经是根目录了")
-            } else {
-                binding.curPath = parentPath
-                updateArray()
-            }
-        }
+        binding.toolbar.setNavigationOnClickListener { finish() }
 
         // 初始化列表
         binding.rcv.layoutManager = LinearLayoutManager(this)
@@ -115,8 +105,16 @@ class SelectFolderActivity : BaseActivity() {
         }
     }
 
-    fun cancel(view: View) {
-        finish()
+    fun lastPage(view: View) {
+        // 返回上一页，如果到了尽头就关闭页面
+        val file = File(binding.curPath?: baseDirectory)
+        val parentPath = file.parent
+        if (parentPath == null) {
+            showSnackBar(binding.root, "已经是根目录了")
+        } else {
+            binding.curPath = parentPath
+            updateArray()
+        }
     }
 
     fun sure(view: View) {

@@ -70,4 +70,7 @@
     <string name="folder_edit_name">重命名</string>
     <string name="folder_edit_new_folder_name">重命名文件夹【**】</string>
     <string name="folder_delete_sure">您确定删除【**】文件夹吗？</string>
+
+    <!-- HistoryActivity -->
+    <string name="history_tittle">发送历史</string>
 </resources>

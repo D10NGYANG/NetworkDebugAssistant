@@ -1,7 +1,9 @@
 package com.dlong.networkdebugassistant.activity
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Message
@@ -29,6 +31,7 @@ class UdpBroadSettingActivity : BaseActivity(), CompoundButton.OnCheckedChangeLi
 
     companion object{
         private const val SELECT_LOCAL_PATH = 1001
+        private const val P_WR_EXTERNAL_STORAGE = 200
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +48,7 @@ class UdpBroadSettingActivity : BaseActivity(), CompoundButton.OnCheckedChangeLi
         binding.swShowTime.setOnCheckedChangeListener(this)
         binding.swShowIpAddress.setOnCheckedChangeListener(this)
         binding.swShowPort.setOnCheckedChangeListener(this)
+        binding.swAutoSaveLocal.setOnCheckedChangeListener(this)
 
         // 初始化配置信息
         binding.config = DBConstant.getInstance(this).getUdpBroadConfiguration()
@@ -57,6 +61,22 @@ class UdpBroadSettingActivity : BaseActivity(), CompoundButton.OnCheckedChangeLi
             SELECT_LOCAL_PATH -> {
                 val path = data?.getStringExtra("path")?: "NULL"
                 binding.config?.receiveSaveLocalPath = path
+                updateConfigShow()
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        val pass = !grantResults.contains(PackageManager.PERMISSION_DENIED)
+        when(requestCode) {
+            P_WR_EXTERNAL_STORAGE -> {
+                // 获取读写权限
+                binding.config?.isAutoSaveToLocal = pass
                 updateConfigShow()
             }
         }
@@ -226,6 +246,17 @@ class UdpBroadSettingActivity : BaseActivity(), CompoundButton.OnCheckedChangeLi
             R.id.sw_show_time -> binding.config?.isReceiveShowTime = p1
             R.id.sw_show_ip_address -> binding.config?.isReceiveShowIpAddress = p1
             R.id.sw_show_port -> binding.config?.isReceiveShowPort = p1
+            R.id.sw_auto_save_local -> {
+                if (p1) {
+                    if (!checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                        !checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        reqPermission(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.READ_EXTERNAL_STORAGE), P_WR_EXTERNAL_STORAGE)
+                        return
+                    }
+                }
+                binding.config?.isAutoSaveToLocal = p1
+            }
         }
         updateConfigShow()
     }

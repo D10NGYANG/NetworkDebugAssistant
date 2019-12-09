@@ -1,16 +1,20 @@
 package com.dlong.networkdebugassistant.activity
 
+import android.Manifest
 import android.os.Bundle
 import android.os.Message
 import android.text.method.ScrollingMovementMethod
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import com.dlong.dialog.ButtonDialog
 import com.dlong.networkdebugassistant.R
+import com.dlong.networkdebugassistant.bean.HistoryInfo
 import com.dlong.networkdebugassistant.bean.ReceiveInfo
 import com.dlong.networkdebugassistant.bean.UdpBroadConfiguration
 import com.dlong.networkdebugassistant.constant.DBConstant
 import com.dlong.networkdebugassistant.databinding.ActivityUdpBroadBinding
+import com.dlong.networkdebugassistant.model.HistoryModel
 import com.dlong.networkdebugassistant.thread.UdpBroadThread
 import com.dlong.networkdebugassistant.utils.AppUtils
 import com.dlong.networkdebugassistant.utils.ByteUtils
@@ -22,6 +26,7 @@ class UdpBroadActivity : BaseActivity() {
 
     private lateinit var binding: ActivityUdpBroadBinding
     private lateinit var config: UdpBroadConfiguration
+    private lateinit var viewModel: HistoryModel
 
     private var thread: UdpBroadThread? = null
     private var disConnectDialog: ButtonDialog? = null
@@ -34,6 +39,7 @@ class UdpBroadActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_udp_broad)
+        viewModel = ViewModelProvider(this).get(HistoryModel::class.java)
         config = DBConstant.getInstance(this).getUdpBroadConfiguration()
         // 初始化连接
         thread = UdpBroadThread(this, mHandler, config.localPort)
@@ -121,7 +127,7 @@ class UdpBroadActivity : BaseActivity() {
     }
 
     fun openHistory(view: View) {
-
+        clearGoTo(HistoryActivity::class.java)
     }
 
     fun send(view: View) {
@@ -139,6 +145,8 @@ class UdpBroadActivity : BaseActivity() {
         }
         if (thread?.isAlive == true) {
             thread?.send(config.targetIpAddress, config.targetPort, data.toByteArray())
+            // 插入数据库
+            viewModel.insertHistory(HistoryInfo(0, text, DateUtils.curTime))
         }
         if (binding.swLoop.isChecked) {
             // 循环发送
@@ -196,6 +204,10 @@ class UdpBroadActivity : BaseActivity() {
         val offset = binding.txtReceive.lineCount * (binding.txtReceive.lineHeight)
         if (offset > binding.txtReceive.height) {
             binding.txtReceive.scrollTo(0, offset - binding.txtReceive.height)
+        }
+        // 自动保存
+        if (config.isAutoSaveToLocal) {
+            saveReceiveDataToLocal(receiveInfo, config.receiveSaveLocalPath, config.isReceiveHex)
         }
     }
 }
