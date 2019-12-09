@@ -11,6 +11,7 @@
     <string name="save">保存</string>
     <string name="execute">执行</string>
     <string name="copy">复制</string>
+    <string name="setting">设置</string>
 
     <!-- MainActivity -->
     <string name="main_tittle">网络调试助手 - DL</string>
@@ -24,7 +25,6 @@
     <string name="setting_version">版本信息</string>
 
     <!-- UdpBroadActivity -->
-    <string name="udp_broad_tittle">UDP广播</string>
     <string name="clean">清除</string>
     <string name="history">历史</string>
     <string name="send">发送</string>
@@ -59,6 +59,12 @@
     <string name="disconnect_ing">正在断开连接…</string>
     <string name="copy_to_clip_success">已将接收文本复制到系统粘贴板！</string>
 
+    <!-- UdpMultiSettingActivity -->
+    <string name="udp_multi_setting_tittle">UDP组播配置</string>
+    <string name="target_multi_ip_address">目标组播地址</string>
+    <string name="please_input_multi_ip_address">请输入组播地址（224.0.0.0 ～ 239.255.255.255）</string>
+    <string name="input_multi_ip_address_wrong_format">组播地址格式不正确</string>
+
     <!-- SelectFolderActivity -->
     <string name="folder_tittle">选择存储路径</string>
     <string name="folder_son_num">个子项</string>
@@ -73,4 +79,5 @@
 
     <!-- HistoryActivity -->
     <string name="history_tittle">发送历史</string>
+    <string name="history_edit_tips">您可以对历史发送文本【**】进行如下操作</string>
 </resources>

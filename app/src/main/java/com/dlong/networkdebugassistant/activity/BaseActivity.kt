@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Message
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -103,6 +104,7 @@ open class BaseActivity : AppCompatActivity(), BaseHandler.BaseHandlerCallBack {
             builder.append(String(receive.byteData, 0, receive.byteData.size))
         }
         builder.append("\r\n")
+        Log.e("测试","接收到：$builder")
         // 写入文本内容
         val outputStream = FileOutputStream(file, true)
         val writer = BufferedWriter(OutputStreamWriter(outputStream))

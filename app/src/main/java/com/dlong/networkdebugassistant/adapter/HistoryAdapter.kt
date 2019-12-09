@@ -25,6 +25,7 @@ class HistoryAdapter constructor(
 
     companion object{
         const val CLICK_COPY = 1
+        const val LONG_CLICK = 2
     }
 
     fun update(list: List<HistoryInfo>) {
@@ -71,5 +72,11 @@ class HistoryAdapter constructor(
                 }
             }
         })
+        holder.binding.txtContent.setOnLongClickListener {
+            val m = Message.obtain()
+            m.what = LONG_CLICK
+            m.obj = this.mList[position]
+            mHandler.sendMessage(m)
+        }
     }
 }

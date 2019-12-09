@@ -6,6 +6,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dlong.dialog.BaseDialog
+import com.dlong.dialog.ButtonDialog
+import com.dlong.dialog.ButtonStyle
+import com.dlong.dialog.OnBtnClick
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.adapter.HistoryAdapter
 import com.dlong.networkdebugassistant.bean.HistoryInfo
@@ -48,6 +52,23 @@ class HistoryActivity : BaseActivity() {
                 val info = msg.obj as HistoryInfo
                 AppUtils.copyToClipboard(this, info.text)
                 showToast(resources.getString(R.string.copy_to_clip_success))
+            }
+            HistoryAdapter.LONG_CLICK -> {
+                val info = msg.obj as HistoryInfo
+                var tips = resources.getString(R.string.history_edit_tips)
+                val length = 10
+                tips = tips.replace("**", info.text.substring(0, length.coerceAtMost(info.text.length)))
+                if (info.text.length > length) tips = "$tips..."
+                ButtonDialog(this).setTittle(resources.getString(R.string.prompt))
+                    .setMsg(tips)
+                    .addAction(resources.getString(R.string.delete), ButtonStyle.ERROR, object : OnBtnClick{
+                        override fun click(d0: BaseDialog<*>, text: String) {
+                            viewModel.deleteHistory(info)
+                            d0.dismiss()
+                        }
+                    })
+                    .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
+                    .create().show()
             }
         }
     }

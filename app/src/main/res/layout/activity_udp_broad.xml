@@ -26,7 +26,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@mipmap/icon_back"
-            app:title="@string/udp_broad_tittle"
+            app:title="@string/main_udp_broad"
             app:titleTextColor="@android:color/white" />
 
         <ImageButton

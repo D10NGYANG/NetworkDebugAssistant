@@ -22,6 +22,7 @@ class MainActivity : BaseActivity() {
     fun goAct(view: View) {
         when(view.id) {
             R.id.btn_udp -> clearGoTo(UdpBroadActivity::class.java)
+            R.id.btn_udp_multi -> clearGoTo(UdpMultiActivity::class.java)
         }
     }
 }

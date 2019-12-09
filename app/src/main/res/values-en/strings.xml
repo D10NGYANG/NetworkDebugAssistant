@@ -11,6 +11,7 @@
     <string name="save">Save</string>
     <string name="execute">Run</string>
     <string name="copy">Copy</string>
+    <string name="setting">Setting</string>
 
     <!-- MainActivity -->
     <string name="main_tittle">Network Debug Assistant - DL</string>
@@ -24,7 +25,6 @@
     <string name="setting_version">Version Info</string>
 
     <!-- UdpBroadActivity -->
-    <string name="udp_broad_tittle">UDP Broadcast</string>
     <string name="clean">Clean</string>
     <string name="history">History</string>
     <string name="send">Send</string>
@@ -73,4 +73,5 @@
 
     <!-- HistoryActivity -->
     <string name="history_tittle">Send History</string>
+    <string name="history_edit_tips">You can perform the following operations on the history sending text [**]</string>
 </resources>

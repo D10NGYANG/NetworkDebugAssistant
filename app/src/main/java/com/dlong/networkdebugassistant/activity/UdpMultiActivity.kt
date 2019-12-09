@@ -10,24 +10,27 @@ import com.dlong.dialog.ButtonDialog
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.bean.HistoryInfo
 import com.dlong.networkdebugassistant.bean.ReceiveInfo
-import com.dlong.networkdebugassistant.bean.UdpBroadConfiguration
+import com.dlong.networkdebugassistant.bean.UdpMultiConfiguration
 import com.dlong.networkdebugassistant.constant.DBConstant
 import com.dlong.networkdebugassistant.databinding.ActivityUdpBroadBinding
 import com.dlong.networkdebugassistant.model.HistoryModel
-import com.dlong.networkdebugassistant.thread.UdpBroadThread
+import com.dlong.networkdebugassistant.thread.UdpMultiThread
 import com.dlong.networkdebugassistant.utils.AppUtils
 import com.dlong.networkdebugassistant.utils.ByteUtils
 import com.dlong.networkdebugassistant.utils.DateUtils
 import com.dlong.networkdebugassistant.utils.StringUtils
 import java.lang.StringBuilder
 
-class UdpBroadActivity : BaseActivity() {
-
+/**
+ * @author D10NG
+ * @date on 2019-12-09 11:09
+ */
+class UdpMultiActivity : BaseActivity() {
     private lateinit var binding: ActivityUdpBroadBinding
-    private lateinit var config: UdpBroadConfiguration
+    private lateinit var config: UdpMultiConfiguration
     private lateinit var viewModel: HistoryModel
 
-    private var thread: UdpBroadThread? = null
+    private var thread: UdpMultiThread? = null
     private var disConnectDialog: ButtonDialog? = null
 
     companion object{
@@ -39,10 +42,11 @@ class UdpBroadActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_udp_broad)
         viewModel = ViewModelProvider(this).get(HistoryModel::class.java)
-        config = DBConstant.getInstance(this).getUdpBroadConfiguration()
+        config = DBConstant.getInstance(this).getUdpMultiConfiguration()
         // 初始化连接
-        thread = UdpBroadThread(this, mHandler, config.localPort)
+        thread = UdpMultiThread(this, mHandler, config.targetIpAddress, config.localPort)
 
+        binding.toolbar.title = resources.getString(R.string.main_udp_multi)
         // 设置返回按钮
         setSupportActionBar(binding.toolbar)
         binding.toolbar.setNavigationOnClickListener { finish() }
@@ -66,13 +70,13 @@ class UdpBroadActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         // 更新配置
-        config = DBConstant.getInstance(this).getUdpBroadConfiguration()
+        config = DBConstant.getInstance(this).getUdpMultiConfiguration()
     }
 
     override fun callBack(msg: Message) {
         super.callBack(msg)
         when(msg.what) {
-            UdpBroadThread.RECEIVE_MSG -> {
+            UdpMultiThread.RECEIVE_MSG -> {
                 val info = msg.obj as ReceiveInfo
                 showReceive(info)
             }
@@ -92,7 +96,7 @@ class UdpBroadActivity : BaseActivity() {
     }
 
     fun openSetting(view: View) {
-        clearGoTo(UdpBroadSettingActivity::class.java)
+        clearGoTo(UdpMultiSettingActivity::class.java)
     }
 
     fun connectOrNot(view: View) {
@@ -108,7 +112,7 @@ class UdpBroadActivity : BaseActivity() {
             mHandler.sendEmptyMessageDelayed(CHECK_THREAD_ALIVE, 100)
         } else {
             // 连接
-            thread = UdpBroadThread(this, mHandler, config.localPort)
+            thread = UdpMultiThread(this, mHandler, config.targetIpAddress, config.localPort)
             thread?.start()
             showConnect(true)
             showToast(resources.getString(R.string.connect_success))

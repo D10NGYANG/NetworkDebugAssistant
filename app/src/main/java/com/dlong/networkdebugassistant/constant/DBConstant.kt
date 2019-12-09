@@ -2,6 +2,7 @@ package com.dlong.networkdebugassistant.constant
 
 import android.content.Context
 import com.dlong.networkdebugassistant.bean.UdpBroadConfiguration
+import com.dlong.networkdebugassistant.bean.UdpMultiConfiguration
 import com.dlong.networkdebugassistant.utils.SpfUtils
 import org.json.JSONObject
 
@@ -48,5 +49,18 @@ class DBConstant constructor(context: Context) {
     fun setUdpBroadConfiguration(configuration: UdpBroadConfiguration) {
         val constant = configuration.toJson().toString()
         mSpf.edit().putString(SPF_UDP_BROAD, constant).apply()
+    }
+
+    fun getUdpMultiConfiguration() : UdpMultiConfiguration {
+        val constant = mSpf.getString(SPF_UDP_MULTI, "")?: ""
+        if (constant.isEmpty()) return UdpMultiConfiguration()
+        val configuration = UdpMultiConfiguration()
+        configuration.setFromJson(JSONObject(constant))
+        return configuration
+    }
+
+    fun setUdpMultiConfiguration(configuration: UdpMultiConfiguration) {
+        val constant = configuration.toJson().toString()
+        mSpf.edit().putString(SPF_UDP_MULTI, constant).apply()
     }
 }
