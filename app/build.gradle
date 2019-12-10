@@ -19,8 +19,20 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            //关闭日志
+            buildConfigField "boolean", "ISOPENLOG", "false"
+            //Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "NetworkDebugAssistant-${buildType.name}-${defaultConfig.versionName}-${releaseTime()}.apk"
+                }
+            }
         }
     }
     dataBinding {
@@ -29,6 +41,10 @@ android {
     packagingOptions {
         exclude 'META-INF/atomicfu.kotlin_module'
     }
+}
+
+static def releaseTime() {
+    return new Date().format("yyyyMMddhhmmss", TimeZone.getTimeZone("Asia/Shanghai"))
 }
 
 dependencies {

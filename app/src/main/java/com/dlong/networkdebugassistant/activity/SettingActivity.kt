@@ -32,6 +32,7 @@ class SettingActivity : BaseActivity() {
         val info = AppUtils.getVersionReadMe(this, binding.txtVersion?: "")
         VersionInfoDialog(this)
             .setTittle(resources.getString(R.string.setting_version))
+            .setIcon(R.mipmap.ic_launcher_web)
             .addVersionInfo(info.version, info.time, info.author, info.content)
             .addAction(resources.getString(R.string.sure), ButtonStyle.THEME, null)
             .create().show()
