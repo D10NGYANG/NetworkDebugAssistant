@@ -2,6 +2,7 @@ package com.dlong.networkdebugassistant.thread
 
 import android.os.Handler
 import android.os.Message
+import android.util.Log
 import com.dlong.networkdebugassistant.activity.BaseSendReceiveActivity
 import com.dlong.networkdebugassistant.bean.ReceiveInfo
 import com.dlong.networkdebugassistant.utils.DateUtils
@@ -22,22 +23,44 @@ class TcpClientThread constructor(
 
     private var socket: Socket? = null
 
+    companion object{
+        const val CONNECT_SUCCESS = 31
+        const val CONNECT_FAILED = 32
+        const val DISCONNECT = 33
+    }
+
     override fun run() {
         super.run()
+
+        // 500毫秒后查看连接状态
+        /*Thread(Runnable {
+            sleep(500)
+            if (socket?.isConnected == true) {
+                mHandler.sendEmptyMessage(CONNECT_SUCCESS)
+            } else {
+                mHandler.sendEmptyMessage(CONNECT_FAILED)
+            }
+        }).start()*/
         try {
             socket = Socket(ipAddress, port)
         } catch (e: Exception) {
             socket = Socket()
+            mHandler.sendEmptyMessage(CONNECT_FAILED)
             return
         }
+        mHandler.sendEmptyMessage(CONNECT_SUCCESS)
+
         val inputStream = socket?.getInputStream()
 
         while (socket?.isConnected == true){
             val buffer = ByteArray(1024)
-            var len: Int
+            val len =
             try {
-                len = inputStream?.read(buffer)?: 0
+                inputStream?.read(buffer)?: 0
             } catch (e: Exception) {
+                -1
+            }
+            if (len == -1) {
                 break
             }
             if (len > 0) {
@@ -54,6 +77,7 @@ class TcpClientThread constructor(
                 mHandler.sendMessage(m)
             }
         }
+        mHandler.sendEmptyMessage(DISCONNECT)
     }
 
     override fun send(address: String, toPort: Int, data: ByteArray) {

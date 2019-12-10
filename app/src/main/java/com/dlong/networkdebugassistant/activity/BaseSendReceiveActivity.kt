@@ -125,10 +125,7 @@ open class BaseSendReceiveActivity : BaseActivity() {
             mHandler.sendEmptyMessageDelayed(CHECK_THREAD_ALIVE, 100)
         } else {
             // 连接
-            initThread()
-            thread?.start()
-            showConnect(true)
-            showToast(resources.getString(R.string.connect_success))
+            connect()
         }
     }
 
@@ -136,6 +133,16 @@ open class BaseSendReceiveActivity : BaseActivity() {
      * 初始化线程
      */
     open fun initThread() {}
+
+    /**
+     * 建立连接
+     */
+    open fun connect() {
+        initThread()
+        thread?.start()
+        showConnect(true)
+        showToast(resources.getString(R.string.connect_success))
+    }
 
     fun clean(view: View) {
         when(view.id) {
@@ -188,7 +195,7 @@ open class BaseSendReceiveActivity : BaseActivity() {
     /**
      * 显示是否连接
      */
-    private fun showConnect(con: Boolean) {
+    protected fun showConnect(con: Boolean) {
         binding.isConnect = con
         if (binding.isConnect) {
             binding.btnConnect.setImageResource(R.mipmap.icon_connect)
