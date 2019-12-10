@@ -5,13 +5,10 @@
 
     <data>
         <variable
-            name="localPort"
+            name="serverIpAddress"
             type="String" />
         <variable
-            name="targetIpAddress"
-            type="String" />
-        <variable
-            name="targetPort"
+            name="serverPort"
             type="String" />
     </data>
 
@@ -19,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/darker_gray"
-        tools:context=".activity.UdpBroadSettingActivity">
+        tools:context=".activity.TcpClientSettingActivity">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -32,7 +29,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@mipmap/icon_back"
-            app:title="@string/udp_multi_setting_tittle"
+            app:title="@string/tcp_client_setting_tittle"
             app:titleTextColor="@android:color/white" />
 
         <ScrollView
@@ -70,52 +67,6 @@
                     app:cardCornerRadius="5dp">
 
                     <Button
-                        android:id="@+id/btn_set_local_port"
-                        style="@style/Base.Widget.AppCompat.Button.Borderless"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:onClick="setLocalPort" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="10dp"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical"
-                            android:text="@string/local_port"
-                            android:textColor="@android:color/black" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:text='@{localPort}'
-                            android:textColor="@android:color/black" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerInside"
-                            app:srcCompat="@mipmap/icon_next" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="1px"
-                    android:layout_marginRight="10dp"
-                    app:cardBackgroundColor="@color/normalBgColor"
-                    app:cardCornerRadius="5dp">
-
-                    <Button
                         android:id="@+id/btn_set_target_ip"
                         style="@style/Base.Widget.AppCompat.Button.Borderless"
                         android:layout_width="match_parent"
@@ -133,14 +84,14 @@
                             android:layout_marginStart="10dp"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="@string/target_multi_ip_address"
+                            android:text="@string/server_ip_address"
                             android:textColor="@android:color/black" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
-                            android:text='@{targetIpAddress}'
+                            android:text='@{serverIpAddress}'
                             android:textColor="@android:color/black" />
 
                         <ImageView
@@ -179,14 +130,14 @@
                             android:layout_marginStart="10dp"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="@string/target_port"
+                            android:text="@string/server_port"
                             android:textColor="@android:color/black" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
-                            android:text='@{targetPort}'
+                            android:text='@{serverPort}'
                             android:textColor="@android:color/black" />
 
                         <ImageView

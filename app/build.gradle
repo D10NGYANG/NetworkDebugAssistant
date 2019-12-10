@@ -59,9 +59,9 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0"
 
-    implementation 'com.github.D10NGYANG:JsonEntityManager:1.0'
-
     // 调试工具
     debugImplementation 'com.simple:spiderman:1.1.0'
     releaseImplementation 'com.simple:spiderman-no-op:1.1.0'
+
+    implementation files('libs/jsonentitylib-release-1.1.aar')
 }

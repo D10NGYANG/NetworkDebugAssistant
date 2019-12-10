@@ -9,19 +9,20 @@ import com.dlong.dialog.ButtonStyle
 import com.dlong.dialog.EditDialog
 import com.dlong.dialog.OnBtnClick
 import com.dlong.networkdebugassistant.R
+import com.dlong.networkdebugassistant.bean.TcpClientConfiguration
 import com.dlong.networkdebugassistant.bean.UdpBroadConfiguration
 import com.dlong.networkdebugassistant.constant.DBConstant
-import com.dlong.networkdebugassistant.databinding.ActivityUdpBroadSettingBinding
+import com.dlong.networkdebugassistant.databinding.ActivityTcpClientSettingBinding
 import com.dlong.networkdebugassistant.utils.StringUtils
 import java.lang.StringBuilder
 
-class UdpBroadSettingActivity : BaseSettingActivity() {
+class TcpClientSettingActivity : BaseSettingActivity() {
 
-    private lateinit var binding: ActivityUdpBroadSettingBinding
+    private lateinit var binding: ActivityTcpClientSettingBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_udp_broad_setting)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_tcp_client_setting)
 
         // 设置返回按钮
         setSupportActionBar(binding.toolbar)
@@ -34,59 +35,28 @@ class UdpBroadSettingActivity : BaseSettingActivity() {
     override fun initConfig() {
         super.initConfig()
         // 初始化配置信息
-        binding.contentBase.config = DBConstant.getInstance(this).getUdpBroadConfiguration()
+        binding.contentBase.config = DBConstant.getInstance(this).getTcpClientConfiguration()
         updateConfigShow()
     }
 
     override fun updateConfigShow() {
-        binding.contentBase.config = binding.contentBase.config?: UdpBroadConfiguration()
-        val cc = binding.contentBase.config as UdpBroadConfiguration
-        binding.localPort = "${cc.localPort}"
-        binding.targetIpAddress = cc.targetIpAddress
-        binding.targetPort = "${cc.targetPort}"
+        binding.contentBase.config = binding.contentBase.config?: TcpClientConfiguration()
+        val cc = binding.contentBase.config as TcpClientConfiguration
+        binding.serverPort = "${cc.serverPort}"
+        binding.serverIpAddress = cc.serverIpAddress
         // 保存配置信息
-        DBConstant.getInstance(this).setUdpBroadConfiguration(cc)
-    }
-
-    fun setLocalPort(view: View) {
-        val cc = binding.contentBase.config as UdpBroadConfiguration
-        val tag = "port"
-        EditDialog(this)
-            .setTittle(resources.getString(R.string.prompt))
-            .setMsg(resources.getString(R.string.local_port))
-            .addEdit(tag, "${cc.localPort}", resources.getString(R.string.please_input_port))
-            .setInputType(tag, InputType.TYPE_CLASS_NUMBER)
-            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME, object : OnBtnClick{
-                override fun click(d0: BaseDialog<*>, text: String) {
-                    val dialog = d0 as EditDialog
-                    val value = dialog.getInputText(tag)
-                    if (value.isEmpty()) {
-                        dialog.setError(tag, resources.getString(R.string.input_port_can_not_empty))
-                    } else {
-                        val num = value.toIntOrNull()?: -1
-                        if (num in 0x0000..0xffff) {
-                            cc.localPort = num
-                            updateConfigShow()
-                            dialog.dismiss()
-                        } else {
-                            dialog.setError(tag, resources.getString(R.string.input_port_can_not_over_range))
-                        }
-                    }
-                }
-            })
-            .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
-            .create().show()
+        DBConstant.getInstance(this).setTcpClientConfiguration(cc)
     }
 
     fun setTargetIpAddress(view: View) {
-        val cc = binding.contentBase.config as UdpBroadConfiguration
+        val cc = binding.contentBase.config as TcpClientConfiguration
         val tag = "ip"
         EditDialog(this)
             .setTittle(resources.getString(R.string.prompt))
             .setMsg(resources.getString(R.string.target_ip_address))
-            .addEdit(tag, cc.targetIpAddress, resources.getString(R.string.please_input_ip_address))
+            .addEdit(tag, cc.serverIpAddress, resources.getString(R.string.please_input_ip_address))
             .setInputType(tag, InputType.TYPE_NUMBER_FLAG_DECIMAL)
-            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME, object : OnBtnClick{
+            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME, object : OnBtnClick {
                 override fun click(d0: BaseDialog<*>, text: String) {
                     val dialog = d0 as EditDialog
                     val value = dialog.getInputText(tag)
@@ -112,7 +82,7 @@ class UdpBroadSettingActivity : BaseSettingActivity() {
                         }
                         builder.append(num).append(".")
                     }
-                    cc.targetIpAddress = builder.substring(0, builder.length -1)
+                    cc.serverIpAddress = builder.substring(0, builder.length -1)
                     updateConfigShow()
                     dialog.dismiss()
                 }
@@ -122,14 +92,14 @@ class UdpBroadSettingActivity : BaseSettingActivity() {
     }
 
     fun setTargetPort(view: View) {
-        val cc = binding.contentBase.config as UdpBroadConfiguration
+        val cc = binding.contentBase.config as TcpClientConfiguration
         val tag = "port"
         EditDialog(this)
             .setTittle(resources.getString(R.string.prompt))
             .setMsg(resources.getString(R.string.target_port))
-            .addEdit(tag, "${cc.targetPort}", resources.getString(R.string.please_input_port))
+            .addEdit(tag, "${cc.serverPort}", resources.getString(R.string.please_input_port))
             .setInputType(tag, InputType.TYPE_CLASS_NUMBER)
-            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME, object : OnBtnClick{
+            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME, object : OnBtnClick {
                 override fun click(d0: BaseDialog<*>, text: String) {
                     val dialog = d0 as EditDialog
                     val value = dialog.getInputText(tag)
@@ -138,7 +108,7 @@ class UdpBroadSettingActivity : BaseSettingActivity() {
                     } else {
                         val num = value.toIntOrNull()?: -1
                         if (num in 0x0000..0xffff) {
-                            cc.targetPort = num
+                            cc.serverPort = num
                             updateConfigShow()
                             dialog.dismiss()
                         } else {

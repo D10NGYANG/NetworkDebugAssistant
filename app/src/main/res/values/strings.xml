@@ -65,6 +65,11 @@
     <string name="please_input_multi_ip_address">请输入组播地址（224.0.0.0 ～ 239.255.255.255）</string>
     <string name="input_multi_ip_address_wrong_format">组播地址格式不正确</string>
 
+    <!-- TcpClientSettingActivity -->
+    <string name="tcp_client_setting_tittle">TCP客户端配置</string>
+    <string name="server_ip_address">服务器地址</string>
+    <string name="server_port">服务器端口</string>
+
     <!-- SelectFolderActivity -->
     <string name="folder_tittle">选择存储路径</string>
     <string name="folder_son_num">个子项</string>

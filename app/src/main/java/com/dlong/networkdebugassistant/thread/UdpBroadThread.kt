@@ -5,6 +5,7 @@ import android.net.wifi.WifiManager
 import android.os.Handler
 import android.os.Message
 import android.util.Log
+import com.dlong.networkdebugassistant.activity.BaseSendReceiveActivity
 import com.dlong.networkdebugassistant.bean.ReceiveInfo
 import com.dlong.networkdebugassistant.utils.DateUtils
 import java.net.DatagramPacket
@@ -22,15 +23,11 @@ class UdpBroadThread constructor(
     private val mContext: Context,
     private val mHandler: Handler,
     private val port: Int
-) : Thread() {
+) : BaseThread() {
 
     private lateinit var mLock: WifiManager.MulticastLock
     private lateinit var dgSocket: DatagramSocket
     private var isRun = false
-
-    companion object{
-        const val RECEIVE_MSG = 10001
-    }
 
     override fun run() {
         super.run()
@@ -62,7 +59,7 @@ class UdpBroadThread constructor(
             receive.port = packet.port
 
             val m = Message.obtain()
-            m.what = RECEIVE_MSG
+            m.what = BaseSendReceiveActivity.RECEIVE_MSG
             m.obj = receive
             mHandler.sendMessage(m)
         }
@@ -86,7 +83,7 @@ class UdpBroadThread constructor(
         }
     }
 
-    fun send(address: String, toPort: Int, data: ByteArray) {
+    override fun send(address: String, toPort: Int, data: ByteArray) {
         acquireLock()
         Thread(Runnable {
             val packet = DatagramPacket(data, data.size, InetAddress.getByName(address), toPort)
@@ -94,7 +91,9 @@ class UdpBroadThread constructor(
         }).start()
     }
 
-    fun close() {
+    override fun send(data: ByteArray) {}
+
+    override fun close() {
         isRun = false
     }
 }
