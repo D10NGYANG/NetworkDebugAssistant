@@ -24,10 +24,11 @@
     <string name="setting_tittle">设置</string>
     <string name="setting_version">版本信息</string>
 
-    <!-- UdpBroadActivity -->
+    <!-- BaseSendReceiveActivity -->
     <string name="clean">清除</string>
     <string name="history">历史</string>
     <string name="send">发送</string>
+    <string name="local_ip_address">本机IP：</string>
 
     <!-- UdpBroadSettingActivity -->
     <string name="udp_broad_setting_tittle">UDP广播配置</string>
@@ -72,6 +73,12 @@
     <string name="tcp_client_setting_tittle">TCP客户端配置</string>
     <string name="server_ip_address">服务器地址</string>
     <string name="server_port">服务器端口</string>
+
+    <!-- TcpServerActivity -->
+    <string name="tcp_server_all_connect_socket">所有连接客户端</string>
+
+    <!-- TcpServerSettingActivity -->
+    <string name="tcp_server_setting_tittle">TCP服务器配置</string>
 
     <!-- SelectFolderActivity -->
     <string name="folder_tittle">选择存储路径</string>

@@ -7,6 +7,9 @@
         <variable
             name="isConnect"
             type="boolean" />
+        <variable
+            name="localIpAddress"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,6 +58,16 @@
             app:layout_constraintEnd_toStartOf="@+id/btn_setting"
             app:layout_constraintTop_toTopOf="@+id/toolbar" />
 
+        <Spinner
+            android:id="@+id/sp_socket"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/socket_spinner_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -63,12 +76,21 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@id/sp_socket">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_local_ip_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text='@{@string/local_ip_address + localIpAddress}'
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/edt_send"

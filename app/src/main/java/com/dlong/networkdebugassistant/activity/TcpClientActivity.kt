@@ -2,6 +2,7 @@ package com.dlong.networkdebugassistant.activity
 
 import android.os.Bundle
 import android.os.Message
+import android.view.View
 import com.dlong.dialog.BaseDialog
 import com.dlong.dialog.ButtonDialog
 import com.dlong.dialog.ButtonStyle
@@ -22,6 +23,7 @@ class TcpClientActivity : BaseSendReceiveActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTittle(resources.getString(R.string.main_tcp_client))
+        binding.spSocket.visibility = View.GONE
     }
 
     override fun initConfig() {

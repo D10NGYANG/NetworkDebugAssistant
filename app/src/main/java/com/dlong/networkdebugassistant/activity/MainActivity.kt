@@ -24,6 +24,7 @@ class MainActivity : BaseActivity() {
             R.id.btn_udp -> clearGoTo(UdpBroadActivity::class.java)
             R.id.btn_udp_multi -> clearGoTo(UdpMultiActivity::class.java)
             R.id.btn_tcp_client -> clearGoTo(TcpClientActivity::class.java)
+            R.id.btn_tcp_server -> clearGoTo(TcpServerActivity::class.java)
         }
     }
 }

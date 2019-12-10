@@ -41,8 +41,10 @@ class TcpClientThread constructor(
                 mHandler.sendEmptyMessage(CONNECT_FAILED)
             }
         }).start()*/
+
         try {
             socket = Socket(ipAddress, port)
+            socket?.reuseAddress = true
         } catch (e: Exception) {
             socket = Socket()
             mHandler.sendEmptyMessage(CONNECT_FAILED)

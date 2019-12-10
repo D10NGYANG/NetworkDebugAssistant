@@ -14,10 +14,7 @@ import com.dlong.networkdebugassistant.bean.ReceiveInfo
 import com.dlong.networkdebugassistant.databinding.ActivitySendReceiveBinding
 import com.dlong.networkdebugassistant.model.HistoryModel
 import com.dlong.networkdebugassistant.thread.BaseThread
-import com.dlong.networkdebugassistant.utils.AppUtils
-import com.dlong.networkdebugassistant.utils.ByteUtils
-import com.dlong.networkdebugassistant.utils.DateUtils
-import com.dlong.networkdebugassistant.utils.StringUtils
+import com.dlong.networkdebugassistant.utils.*
 import java.lang.StringBuilder
 
 /**
@@ -79,6 +76,13 @@ open class BaseSendReceiveActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         initConfig()
+        // 显示当前IP地址
+        binding.localIpAddress = NetUtils.localIPAddress
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        thread?.close()
     }
 
     override fun callBack(msg: Message) {

@@ -1,6 +1,7 @@
 package com.dlong.networkdebugassistant.activity
 
 import android.os.Bundle
+import android.view.View
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.bean.UdpBroadConfiguration
 import com.dlong.networkdebugassistant.constant.DBConstant
@@ -11,6 +12,7 @@ class UdpBroadActivity : BaseSendReceiveActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTittle(resources.getString(R.string.main_udp_broad))
+        binding.spSocket.visibility = View.GONE
     }
 
     override fun initConfig() {

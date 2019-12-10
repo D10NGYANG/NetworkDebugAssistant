@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application
         android:name=".app.MyApp"
@@ -31,12 +32,16 @@
         <activity android:name=".activity.UdpBroadSettingActivity" />
         <activity
             android:name=".activity.UdpMultiActivity"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".activity.UdpMultiSettingActivity" />
         <activity
             android:name=".activity.TcpClientActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".activity.TcpClientSettingActivity"></activity>
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activity.TcpClientSettingActivity" />
+        <activity
+            android:name=".activity.TcpServerActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activity.TcpServerSettingActivity"></activity>
     </application>
 
 </manifest>

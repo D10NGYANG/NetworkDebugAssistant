@@ -24,10 +24,11 @@
     <string name="setting_tittle">Setting</string>
     <string name="setting_version">Version Info</string>
 
-    <!-- UdpBroadActivity -->
+    <!-- BaseSendReceiveActivity -->
     <string name="clean">Clean</string>
     <string name="history">History</string>
     <string name="send">Send</string>
+    <string name="local_ip_address">LOCAL IP：</string>
 
     <!-- UdpBroadSettingActivity -->
     <string name="udp_broad_setting_tittle">UDP Broadcast Setting</string>
@@ -54,10 +55,30 @@
     <string name="please_input_loop_time">Please input cyclic sending interval ms</string>
     <string name="input_loop_time_can_not_empty">The cyclic sending interval cannot be empty</string>
     <string name="input_loop_time_can_not_over_range">The interval of cyclic sending is 1 ～ 999999999</string>
+    <string name="connect_ing">Creating connection…</string>
+    <string name="connect_cancel">Canceled connection creation！</string>
     <string name="connect_success">Connect success！</string>
+    <string name="connect_failed">Connect failed！</string>
     <string name="disconnect_success">Disconnected!</string>
     <string name="disconnect_ing">Disconnecting…</string>
     <string name="copy_to_clip_success">Received text copied to system pasteboard！</string>
+
+    <!-- UdpMultiSettingActivity -->
+    <string name="udp_multi_setting_tittle">UDP Multicast Setting</string>
+    <string name="target_multi_ip_address">Target multicast address</string>
+    <string name="please_input_multi_ip_address">Please input a multicast address (224.0.0.0 to 239.255.255.255)</string>
+    <string name="input_multi_ip_address_wrong_format">Multicast address format is wrong</string>
+
+    <!-- TcpClientSettingActivity -->
+    <string name="tcp_client_setting_tittle">TCP Client Setting</string>
+    <string name="server_ip_address">Server IP address</string>
+    <string name="server_port">Server port</string>
+
+    <!-- TcpServerActivity -->
+    <string name="tcp_server_all_connect_socket">All connected clients</string>
+
+    <!-- TcpServerSettingActivity -->
+    <string name="tcp_server_setting_tittle">TCP Server Setting</string>
 
     <!-- SelectFolderActivity -->
     <string name="folder_tittle">Select storage path</string>
