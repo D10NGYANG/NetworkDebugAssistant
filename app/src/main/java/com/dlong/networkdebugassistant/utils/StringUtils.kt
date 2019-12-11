@@ -1,8 +1,6 @@
 package com.dlong.networkdebugassistant.utils
 
-import android.util.Log
 import java.util.regex.Pattern
-import kotlin.experimental.and
 
 /**
  * @author D10NG

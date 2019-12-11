@@ -106,7 +106,7 @@ class SelectFolderActivity : BaseActivity() {
     }
 
     fun lastPage(view: View) {
-        // 返回上一页，如果到了尽头就关闭页面
+        // 返回上一页，如果到了尽头提示用户
         val file = File(binding.curPath?: baseDirectory)
         val parentPath = file.parent
         if (parentPath == null) {

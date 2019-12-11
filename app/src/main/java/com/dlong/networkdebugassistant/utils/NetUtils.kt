@@ -30,6 +30,4 @@ object NetUtils {
             }
             return "null"
         }
-
-
 }
