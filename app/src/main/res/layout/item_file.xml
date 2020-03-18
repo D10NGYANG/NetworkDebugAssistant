@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="@{folderInfo.name}"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorTextTittle"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -52,6 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text='@{folderInfo.sonNum + @string/folder_son_num}'
+                    android:textColor="@color/colorTextNormal"
                     android:textSize="12sp" />
 
                 <TextView
@@ -60,6 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text='@{folderInfo.lastEditTime}'
+                    android:textColor="@color/colorTextNormal"
                     android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>

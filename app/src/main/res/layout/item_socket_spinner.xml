@@ -7,5 +7,5 @@
     android:ellipsize="marquee"
     android:singleLine="true"
     android:textAlignment="inherit"
-    android:textColor="@android:color/white"
-    android:textSize="14sp"></TextView>
+    android:textColor="@color/colorToolbarTittle"
+    android:textSize="14sp"/>

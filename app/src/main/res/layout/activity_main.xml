@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/darker_gray"
+        android:background="@color/colorActivityBackground"
         tools:context=".activity.MainActivity">
 
         <androidx.appcompat.widget.Toolbar
@@ -18,6 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
+            android:elevation="10dp"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@mipmap/icon_setting"
             app:title="@string/main_tittle"
-            app:titleTextColor="@android:color/white" />
+            app:titleTextColor="@color/colorToolbarTittle" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -40,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                app:cardBackgroundColor="@color/normalBgColor"
+                app:cardBackgroundColor="@color/colorItemBackground"
                 app:cardCornerRadius="5dp">
 
                 <Button
@@ -49,14 +50,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="goAct"
-                    android:text="@string/main_udp_broad" />
+                    android:text="@string/main_udp_broad"
+                    android:textColor="@color/colorTextTittle"
+                    android:textSize="14sp" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                app:cardBackgroundColor="@color/normalBgColor"
+                app:cardBackgroundColor="@color/colorItemBackground"
                 app:cardCornerRadius="5dp">
 
                 <Button
@@ -65,14 +68,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="goAct"
-                    android:text="@string/main_udp_multi" />
+                    android:text="@string/main_udp_multi"
+                    android:textColor="@color/colorTextTittle"
+                    android:textSize="14sp" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                app:cardBackgroundColor="@color/normalBgColor"
+                app:cardBackgroundColor="@color/colorItemBackground"
                 app:cardCornerRadius="5dp">
 
                 <Button
@@ -81,14 +86,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="goAct"
-                    android:text="@string/main_tcp_client" />
+                    android:text="@string/main_tcp_client"
+                    android:textColor="@color/colorTextTittle"
+                    android:textSize="14sp" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                app:cardBackgroundColor="@color/normalBgColor"
+                app:cardBackgroundColor="@color/colorItemBackground"
                 app:cardCornerRadius="5dp">
 
                 <Button
@@ -97,7 +104,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="goAct"
-                    android:text="@string/main_tcp_server" />
+                    android:text="@string/main_tcp_server"
+                    android:textColor="@color/colorTextTittle"
+                    android:textSize="14sp" />
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

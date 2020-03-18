@@ -4,5 +4,23 @@
     <color name="colorPrimaryDark">#CC3333</color>
     <color name="colorAccent">#003399</color>
 
-    <color name="normalBgColor">#cccccc</color>spfUserPassword
+    <color name="colorActivityBackground">#aaaaaa</color>
+    <color name="colorItemBackground">#dddddd</color>
+    <color name="colorToolbarTittle">#ffffff</color>
+
+    <color name="spotlightBackground">#BF000000</color>
+
+    <!-- text -->
+    <color name="colorTextTheme">#003399</color>
+    <color name="colorTextTittle">#222222</color>
+    <color name="colorTextNormal">#444444</color>
+    <color name="colorTextHint">#666666</color>
+    <color name="colorTextError">#FF0000</color>
+    <color name="colorTextKey">#ffff00</color>
+
+    <!-- background -->
+    <color name="colorDialogBackground">#eeeeee</color>
+    <color name="colorDialogTittleBackground">#cccccc</color>
+    <color name="colorDialogButtonBackground">#eeeeee</color>
+    <color name="colorDialogSpaceLine">#cccccc</color>
 </resources>

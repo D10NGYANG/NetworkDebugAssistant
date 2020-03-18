@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/darker_gray"
+        android:background="@color/colorActivityBackground"
         tools:context=".activity.SettingActivity">
 
         <androidx.appcompat.widget.Toolbar
@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                app:cardBackgroundColor="@color/normalBgColor"
+                app:cardBackgroundColor="@color/colorItemBackground"
                 app:cardCornerRadius="5dp">
 
                 <Button
@@ -64,20 +64,21 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:text="@string/setting_version"
-                        android:textColor="@android:color/black" />
+                        android:textColor="@color/colorTextNormal" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@{txtVersion}"
-                        android:textColor="@android:color/black" />
+                        android:textColor="@color/colorTextTittle" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"
                         android:scaleType="centerInside"
+                        android:tint="@color/colorTextHint"
                         app:srcCompat="@mipmap/icon_next" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

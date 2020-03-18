@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/darker_gray"
+        android:background="@color/colorActivityBackground"
         tools:context=".activity.TcpClientSettingActivity">
 
         <androidx.appcompat.widget.Toolbar
@@ -23,6 +23,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
+            android:elevation="10dp"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +31,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@mipmap/icon_back"
             app:title="@string/tcp_client_setting_tittle"
-            app:titleTextColor="@android:color/white" />
+            app:titleTextColor="@color/colorToolbarTittle" />
 
         <ScrollView
             android:layout_width="0dp"
@@ -54,8 +55,8 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="5dp"
                     android:text="@string/setting_internet"
-                    android:textColor="@android:color/white"
-                    android:textSize="10sp"
+                    android:textColor="@color/colorTextHint"
+                    android:textSize="12sp"
                     android:textStyle="italic" />
 
                 <androidx.cardview.widget.CardView
@@ -63,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    app:cardBackgroundColor="@color/normalBgColor"
+                    app:cardBackgroundColor="@color/colorItemBackground"
                     app:cardCornerRadius="5dp">
 
                     <Button
@@ -85,20 +86,21 @@
                             android:layout_weight="1"
                             android:gravity="center_vertical"
                             android:text="@string/server_ip_address"
-                            android:textColor="@android:color/black" />
+                            android:textColor="@color/colorTextTittle" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
                             android:text='@{serverIpAddress}'
-                            android:textColor="@android:color/black" />
+                            android:textColor="@color/colorTextTittle" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:adjustViewBounds="true"
                             android:scaleType="centerInside"
+                            android:tint="@color/colorTextHint"
                             app:srcCompat="@mipmap/icon_next" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -109,7 +111,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="1px"
                     android:layout_marginRight="10dp"
-                    app:cardBackgroundColor="@color/normalBgColor"
+                    app:cardBackgroundColor="@color/colorItemBackground"
                     app:cardCornerRadius="5dp">
 
                     <Button
@@ -131,20 +133,21 @@
                             android:layout_weight="1"
                             android:gravity="center_vertical"
                             android:text="@string/server_port"
-                            android:textColor="@android:color/black" />
+                            android:textColor="@color/colorTextTittle" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
                             android:text='@{serverPort}'
-                            android:textColor="@android:color/black" />
+                            android:textColor="@color/colorTextTittle" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:adjustViewBounds="true"
                             android:scaleType="centerInside"
+                            android:tint="@color/colorTextHint"
                             app:srcCompat="@mipmap/icon_next" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

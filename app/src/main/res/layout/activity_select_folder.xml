@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/darker_gray"
+        android:background="@color/colorActivityBackground"
         tools:context=".activity.SelectFolderActivity">
 
         <androidx.appcompat.widget.Toolbar
@@ -20,6 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
+            android:elevation="10dp"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@mipmap/icon_back"
             app:title="@string/folder_tittle"
-            app:titleTextColor="@android:color/white" />
+            app:titleTextColor="@color/colorToolbarTittle" />
 
         <ImageButton
             android:id="@+id/btn_new_folder"
@@ -46,12 +47,12 @@
             android:id="@+id/txt_cur_path"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/normalBgColor"
+            android:background="@color/colorActivityBackground"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:text="@{curPath}"
-            android:textColor="@android:color/black"
+            android:textColor="@color/colorTextTittle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
@@ -72,6 +73,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:clickable="true"
+            android:focusable="true"
             android:onClick="sure"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -83,8 +85,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/text_normal_color"
+            android:backgroundTint="@color/colorTextNormal"
             android:clickable="true"
+            android:focusable="true"
             android:onClick="lastPage"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

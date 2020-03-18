@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#8F2424</color>
+    <color name="colorPrimaryDark">#8F2424</color>
+    <color name="colorAccent">#003399</color>
+
+    <color name="colorActivityBackground">#111111</color>
+    <color name="colorItemBackground">#333333</color>
+    <color name="colorToolbarTittle">#ffffff</color>
+
+    <color name="spotlightBackground">#BF000000</color>
+
+    <!-- text -->
+    <color name="colorTextTheme">#003399</color>
+    <color name="colorTextTittle">#ffffff</color>
+    <color name="colorTextNormal">#dddddd</color>
+    <color name="colorTextHint">#aaaaaa</color>
+    <color name="colorTextError">#FF0000</color>
+    <color name="colorTextKey">#ffff00</color>
+
+    <!-- background -->
+    <color name="colorDialogBackground">#333333</color>
+    <color name="colorDialogTittleBackground">#444444</color>
+    <color name="colorDialogButtonBackground">#555555</color>
+    <color name="colorDialogSpaceLine">#666666</color>
+</resources>

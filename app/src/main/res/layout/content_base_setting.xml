@@ -16,12 +16,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp"
             android:text="@string/setting_send"
-            android:textColor="@android:color/white"
-            android:textSize="10sp"
+            android:textColor="@color/colorTextHint"
+            android:textSize="12sp"
             android:textStyle="italic" />
 
         <androidx.cardview.widget.CardView
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            app:cardBackgroundColor="@color/normalBgColor"
+            app:cardBackgroundColor="@color/colorItemBackground"
             app:cardCornerRadius="5dp"
             app:contentPadding="5dp">
 
@@ -45,7 +45,9 @@
                     android:layout_margin="3dp"
                     android:layout_weight="1"
                     android:checked="@{config.sendHex}"
-                    android:text="@string/setting_is_hex" />
+                    android:text="@string/setting_is_hex"
+                    android:textColor="@color/colorTextTittle"
+                    android:textSize="14sp" />
 
                 <Switch
                     android:id="@+id/sw_auto_add_check"
@@ -54,7 +56,9 @@
                     android:layout_margin="3dp"
                     android:layout_weight="1"
                     android:checked="@{config.autoAddHexCheck}"
-                    android:text="@string/setting_is_auto_add_check" />
+                    android:text="@string/setting_is_auto_add_check"
+                    android:textColor="@color/colorTextTittle"
+                    android:textSize="14sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -64,7 +68,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="1px"
             android:layout_marginRight="10dp"
-            app:cardBackgroundColor="@color/normalBgColor"
+            app:cardBackgroundColor="@color/colorItemBackground"
             app:cardCornerRadius="5dp">
 
             <Button
@@ -86,20 +90,23 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="@string/setting_auto_send_loop_time"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/colorTextTittle"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text='@{config.autoSendTime + ""}'
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/colorTextTittle"
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
                     android:scaleType="centerInside"
+                    android:tint="@color/colorTextHint"
                     app:srcCompat="@mipmap/icon_next" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -111,8 +118,8 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp"
             android:text="@string/setting_receive"
-            android:textColor="@android:color/white"
-            android:textSize="10sp"
+            android:textColor="@color/colorTextHint"
+            android:textSize="12sp"
             android:textStyle="italic" />
 
         <androidx.cardview.widget.CardView
@@ -120,7 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            app:cardBackgroundColor="@color/normalBgColor"
+            app:cardBackgroundColor="@color/colorItemBackground"
             app:cardCornerRadius="5dp"
             app:contentPadding="5dp">
 
@@ -136,7 +143,9 @@
                     android:layout_margin="3dp"
                     android:layout_weight="1"
                     android:checked="@{config.receiveHex}"
-                    android:text="@string/setting_is_hex" />
+                    android:text="@string/setting_is_hex"
+                    android:textColor="@color/colorTextTittle"
+                    android:textSize="14sp" />
 
                 <Switch
                     android:id="@+id/sw_show_time"
@@ -145,7 +154,9 @@
                     android:layout_margin="3dp"
                     android:layout_weight="1"
                     android:checked="@{config.receiveShowTime}"
-                    android:text="@string/setting_is_show_time" />
+                    android:text="@string/setting_is_show_time"
+                    android:textColor="@color/colorTextTittle"
+                    android:textSize="14sp" />
 
                 <Switch
                     android:id="@+id/sw_show_ip_address"
@@ -154,7 +165,9 @@
                     android:layout_margin="3dp"
                     android:layout_weight="1"
                     android:checked="@{config.receiveShowIpAddress}"
-                    android:text="@string/setting_is_show_ip_address" />
+                    android:text="@string/setting_is_show_ip_address"
+                    android:textColor="@color/colorTextTittle"
+                    android:textSize="14sp" />
 
                 <Switch
                     android:id="@+id/sw_show_port"
@@ -163,7 +176,9 @@
                     android:layout_margin="3dp"
                     android:layout_weight="1"
                     android:checked="@{config.receiveShowPort}"
-                    android:text="@string/setting_is_show_port" />
+                    android:text="@string/setting_is_show_port"
+                    android:textColor="@color/colorTextTittle"
+                    android:textSize="14sp" />
 
                 <Switch
                     android:id="@+id/sw_auto_save_local"
@@ -172,7 +187,9 @@
                     android:layout_margin="3dp"
                     android:layout_weight="1"
                     android:checked="@{config.autoSaveToLocal}"
-                    android:text="@string/setting_is_auto_save_local" />
+                    android:text="@string/setting_is_auto_save_local"
+                    android:textColor="@color/colorTextTittle"
+                    android:textSize="14sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -183,7 +200,7 @@
             android:layout_marginTop="1px"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
-            app:cardBackgroundColor="@color/normalBgColor"
+            app:cardBackgroundColor="@color/colorItemBackground"
             app:cardCornerRadius="5dp">
 
             <Button
@@ -205,15 +222,16 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="@string/setting_local_save_path"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="10sp" />
+                    android:textColor="@color/colorTextHint"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text='@{config.receiveSaveLocalPath}'
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/colorTextTittle"
+                    android:textSize="14sp" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
