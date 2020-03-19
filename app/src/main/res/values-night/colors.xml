@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#8F2424</color>
     <color name="colorPrimaryDark">#8F2424</color>
-    <color name="colorAccent">#003399</color>
+    <color name="colorAccent">#4D88FF</color>
 
     <color name="colorActivityBackground">#111111</color>
     <color name="colorItemBackground">#333333</color>
@@ -11,7 +11,7 @@
     <color name="spotlightBackground">#BF000000</color>
 
     <!-- text -->
-    <color name="colorTextTheme">#003399</color>
+    <color name="colorTextTheme">#4D88FF</color>
     <color name="colorTextTittle">#ffffff</color>
     <color name="colorTextNormal">#dddddd</color>
     <color name="colorTextHint">#aaaaaa</color>
