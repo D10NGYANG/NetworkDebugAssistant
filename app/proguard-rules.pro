@@ -164,3 +164,7 @@
 # 保留实体类
 -keep class com.dlong.networkdebugassistant.bean.** {*;}
 
+# 保留UDP/TCP库
+-keep class com.dlong.dl10netassistant.** {*;}
+-dontwarn com.dlong.dl10netassistant.**
+
