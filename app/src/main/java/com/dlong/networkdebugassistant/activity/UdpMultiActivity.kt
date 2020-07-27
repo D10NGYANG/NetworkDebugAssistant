@@ -2,10 +2,10 @@ package com.dlong.networkdebugassistant.activity
 
 import android.os.Bundle
 import android.view.View
+import com.dlong.dl10netassistant.UdpMultiThread
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.bean.UdpMultiConfiguration
 import com.dlong.networkdebugassistant.constant.DBConstant
-import com.dlong.networkdebugassistant.thread.UdpMultiThread
 
 /**
  * @author D10NG
@@ -27,7 +27,7 @@ class UdpMultiActivity : BaseSendReceiveActivity() {
     override fun initThread() {
         super.initThread()
         val cc = config as UdpMultiConfiguration
-        thread = UdpMultiThread(this, mHandler, cc.targetIpAddress, cc.localPort)
+        thread = UdpMultiThread(this, cc.targetIpAddress, cc.localPort, netListener)
     }
 
     override fun openSetting() {

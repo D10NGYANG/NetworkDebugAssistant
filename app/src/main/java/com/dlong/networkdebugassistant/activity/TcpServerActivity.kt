@@ -1,13 +1,12 @@
 package com.dlong.networkdebugassistant.activity
 
 import android.os.Bundle
-import android.os.Message
 import android.view.View
 import android.widget.ArrayAdapter
+import com.dlong.dl10netassistant.TcpServerThread
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.bean.TcpServerConfiguration
 import com.dlong.networkdebugassistant.constant.DBConstant
-import com.dlong.networkdebugassistant.thread.TcpServerThread
 
 /**
  * @author D10NG
@@ -36,7 +35,7 @@ class TcpServerActivity : BaseSendReceiveActivity() {
     override fun initThread() {
         super.initThread()
         val cc = config as TcpServerConfiguration
-        thread = TcpServerThread(this, mHandler, cc.localPort)
+        thread = TcpServerThread(cc.localPort, netListener)
     }
 
     override fun openSetting() {
@@ -44,19 +43,8 @@ class TcpServerActivity : BaseSendReceiveActivity() {
         clearGoTo(TcpServerSettingActivity::class.java)
     }
 
-    override fun callBack(msg: Message) {
-        super.callBack(msg)
-        when(msg.what) {
-            TcpServerThread.ACCEPT_SOCKET -> {
-                updateSocketList()
-            }
-        }
-    }
-
-    /**
-     * 更新客户端列表
-     */
-    private fun updateSocketList() {
+    override fun updateSocketList() {
+        super.updateSocketList()
         if (thread == null) return
         val oldSelect = (binding.spSocket.selectedItem as String?)?: ""
         val tt = thread as TcpServerThread
@@ -70,7 +58,7 @@ class TcpServerActivity : BaseSendReceiveActivity() {
 
     override fun sendData(data: ByteArray) {
         super.sendData(data)
-        val all = resources.getString(R.string.tcp_server_all_connect_socket)
+        val all = TcpServerThread.ALL_CLIENT_NAME
         val selectSocket = (binding.spSocket.selectedItem as String?)?: all
         if (selectSocket == all) {
             thread?.send(data)

@@ -1,12 +1,7 @@
-package com.dlong.networkdebugassistant.thread
+package com.dlong.dl10netassistant
 
 import android.content.Context
 import android.net.wifi.WifiManager
-import android.os.Handler
-import android.os.Message
-import com.dlong.networkdebugassistant.activity.BaseSendReceiveActivity
-import com.dlong.networkdebugassistant.bean.ReceiveInfo
-import com.dlong.networkdebugassistant.utils.DateUtils
 import java.net.*
 
 /**
@@ -16,22 +11,41 @@ import java.net.*
  * @date on 2019-12-09 10:24
  */
 class UdpMultiThread constructor(
+    // 上下文
     private val mContext: Context,
-    private val mHandler: Handler,
+    // 组播地址
     private val multiAddress: String,
-    private val port: Int
-) : BaseThread() {
+    // 端口
+    private val mPort: Int,
+    // 监听器
+    private val mListener: OnNetThreadListener
+) : BaseNetThread(mListener) {
 
-    private lateinit var mLock: WifiManager.MulticastLock
     private lateinit var mcSocket: MulticastSocket
+    /** Wi-Fi锁 */
+    private lateinit var mLock: WifiManager.MulticastLock
+    /** 运行标记位 */
     private var isRun = false
 
     override fun run() {
         super.run()
+
+        // 创建锁
         val manager = mContext.applicationContext
             .getSystemService(Context.WIFI_SERVICE) as WifiManager
-        mLock = manager.createMulticastLock("test wifi")
-        mcSocket = MulticastSocket(port)
+        mLock = manager.createMulticastLock("udp multi wifi")
+
+        try {
+            // 启动端口
+            mcSocket = MulticastSocket(mPort)
+        } catch (e: Exception) {
+            // 启动失败
+            mListener.onConnectFailed("")
+            return
+        }
+        // 启动成功
+        mListener.onConnected("")
+        // 加入组
         val group = InetAddress.getByName(multiAddress)
         mcSocket.joinGroup(group)
         mcSocket.timeToLive = 5
@@ -51,23 +65,14 @@ class UdpMultiThread constructor(
             // 拿到数据
             val data = packet.data.copyOfRange(0, packet.length)
 
-            // 包装
-            val receive = ReceiveInfo()
-            receive.byteData = data
-            receive.time = DateUtils.curTime
-            receive.ipAddress = address
-            receive.port = packet.port
-
-            val m = Message.obtain()
-            m.what = BaseSendReceiveActivity.RECEIVE_MSG
-            m.obj = receive
-            mHandler.sendMessage(m)
+            mListener.onReceive(address, packet.port, curTime, data)
         }
         // 关闭
         mcSocket.leaveGroup(group)
         mcSocket.disconnect()
         mcSocket.close()
         releaseLock()
+        mListener.onDisconnect("")
     }
 
     @Synchronized
@@ -85,14 +90,21 @@ class UdpMultiThread constructor(
     }
 
     override fun send(address: String, toPort: Int, data: ByteArray) {
+        super.send(address, toPort, data)
         acquireLock()
         Thread(Runnable {
-            val packet = DatagramPacket(data, data.size, InetAddress.getByName(address), toPort)
-            mcSocket.send(packet)
+            try {
+                val packet = DatagramPacket(data, data.size, InetAddress.getByName(address), toPort)
+                mcSocket.send(packet)
+            } catch (e: Exception) {
+                mListener.onError(address, e.toString())
+            }
         }).start()
     }
 
-    override fun send(data: ByteArray) {}
+    override fun isConnected(): Boolean {
+        return isRun
+    }
 
     override fun close() {
         isRun = false

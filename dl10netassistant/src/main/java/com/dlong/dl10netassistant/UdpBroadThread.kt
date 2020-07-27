@@ -1,13 +1,7 @@
-package com.dlong.networkdebugassistant.thread
+package com.dlong.dl10netassistant
 
 import android.content.Context
 import android.net.wifi.WifiManager
-import android.os.Handler
-import android.os.Message
-import android.util.Log
-import com.dlong.networkdebugassistant.activity.BaseSendReceiveActivity
-import com.dlong.networkdebugassistant.bean.ReceiveInfo
-import com.dlong.networkdebugassistant.utils.DateUtils
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
@@ -20,23 +14,40 @@ import java.net.InetSocketAddress
  * @date on 2019-12-06 14:59
  */
 class UdpBroadThread constructor(
+    // 上下文
     private val mContext: Context,
-    private val mHandler: Handler,
-    private val port: Int
-) : BaseThread() {
+    // 端口
+    private val mPort: Int,
+    // 监听器
+    private val mListener: OnNetThreadListener
+) : BaseNetThread(mListener) {
 
-    private lateinit var mLock: WifiManager.MulticastLock
     private lateinit var dgSocket: DatagramSocket
+    /** Wi-Fi锁 */
+    private lateinit var mLock: WifiManager.MulticastLock
+    /** 运行标记位 */
     private var isRun = false
 
     override fun run() {
         super.run()
+
+        // 创建锁
         val manager = mContext.applicationContext
             .getSystemService(Context.WIFI_SERVICE) as WifiManager
-        mLock = manager.createMulticastLock("test wifi")
-        dgSocket = DatagramSocket(null)
-        dgSocket.reuseAddress = true
-        dgSocket.bind(InetSocketAddress(port))
+        mLock = manager.createMulticastLock("udp broad wifi")
+
+        try {
+            // 启动端口
+            dgSocket = DatagramSocket(null)
+            dgSocket.reuseAddress = true
+            dgSocket.bind(InetSocketAddress(mPort))
+        } catch (e: Exception) {
+            // 启动失败
+            mListener.onConnectFailed("")
+            return
+        }
+        // 启动成功
+        mListener.onConnected("")
 
         isRun = true
         var packet: DatagramPacket
@@ -51,22 +62,13 @@ class UdpBroadThread constructor(
             // 拿到数据
             val data = packet.data.copyOfRange(0, packet.length)
 
-            // 包装
-            val receive = ReceiveInfo()
-            receive.byteData = data
-            receive.time = DateUtils.curTime
-            receive.ipAddress = address
-            receive.port = packet.port
-
-            val m = Message.obtain()
-            m.what = BaseSendReceiveActivity.RECEIVE_MSG
-            m.obj = receive
-            mHandler.sendMessage(m)
+            mListener.onReceive(address, packet.port, curTime, data)
         }
         // 关闭
         dgSocket.disconnect()
         dgSocket.close()
         releaseLock()
+        mListener.onDisconnect("")
     }
 
     @Synchronized
@@ -83,17 +85,25 @@ class UdpBroadThread constructor(
         }
     }
 
+    override fun isConnected(): Boolean {
+        return isRun
+    }
+
     override fun send(address: String, toPort: Int, data: ByteArray) {
+        super.send(address, toPort, data)
         acquireLock()
         Thread(Runnable {
-            val packet = DatagramPacket(data, data.size, InetAddress.getByName(address), toPort)
-            dgSocket.send(packet)
+            try {
+                val packet = DatagramPacket(data, data.size, InetAddress.getByName(address), toPort)
+                dgSocket.send(packet)
+            } catch (e: Exception) {
+                mListener.onError(address, e.toString())
+            }
         }).start()
     }
 
-    override fun send(data: ByteArray) {}
-
     override fun close() {
+        super.close()
         isRun = false
     }
 }

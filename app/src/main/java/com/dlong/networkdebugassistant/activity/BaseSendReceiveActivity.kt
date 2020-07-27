@@ -3,18 +3,27 @@ package com.dlong.networkdebugassistant.activity
 import android.os.Bundle
 import android.os.Message
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import com.dlong.dialog.BaseDialog
 import com.dlong.dialog.ButtonDialog
+import com.dlong.dialog.ButtonStyle
+import com.dlong.dialog.OnBtnClick
+import com.dlong.dl10netassistant.BaseNetThread
+import com.dlong.dl10netassistant.OnNetThreadListener
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.bean.BaseConfiguration
 import com.dlong.networkdebugassistant.bean.HistoryInfo
 import com.dlong.networkdebugassistant.bean.ReceiveInfo
 import com.dlong.networkdebugassistant.databinding.ActivitySendReceiveBinding
 import com.dlong.networkdebugassistant.model.HistoryModel
-import com.dlong.networkdebugassistant.thread.BaseThread
 import com.dlong.networkdebugassistant.utils.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.StringBuilder
 
 /**
@@ -29,7 +38,8 @@ open class BaseSendReceiveActivity : BaseActivity() {
     protected lateinit var viewModel: HistoryModel
     protected lateinit var config: BaseConfiguration
 
-    protected var thread: BaseThread? = null
+    protected var thread: BaseNetThread? = null
+    protected var connectDialog: ButtonDialog? = null
     protected var disConnectDialog: ButtonDialog? = null
 
     companion object{
@@ -81,17 +91,69 @@ open class BaseSendReceiveActivity : BaseActivity() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         thread?.close()
+        super.onDestroy()
     }
+
+    /** 监听器 */
+    protected val netListener = object : OnNetThreadListener {
+        override fun onConnected(ipAddress: String) {
+            GlobalScope.launch {
+                withContext(Dispatchers.Main) {
+                    connectDialog?.dismiss()
+                    showConnect(true)
+                    showToast(resources.getString(R.string.connect_success))
+                }
+            }
+        }
+
+        override fun onConnectFailed(ipAddress: String) {
+            GlobalScope.launch {
+                withContext(Dispatchers.Main) {
+                    disConnectDialog?.dismiss()
+                    showConnect(false)
+                    showToast(resources.getString(R.string.disconnect_success))
+                }
+            }
+        }
+
+        override fun onDisconnect(ipAddress: String) {
+            GlobalScope.launch {
+                withContext(Dispatchers.Main) {
+                    disConnectDialog?.dismiss()
+                    showConnect(false)
+                    showToast(resources.getString(R.string.disconnect_success))
+                }
+            }
+        }
+
+        override fun onError(ipAddress: String, error: String) {
+            Log.e("onError", "ip: $ipAddress, error: $error")
+        }
+
+        override fun onAcceptSocket(ipAddress: String) {
+            GlobalScope.launch {
+                withContext(Dispatchers.Main) {
+                    updateSocketList()
+                }
+            }
+        }
+
+        override fun onReceive(ipAddress: String, port: Int, time: Long, data: ByteArray) {
+            GlobalScope.launch {
+                withContext(Dispatchers.Main) {
+                    val info = ReceiveInfo(data, time, ipAddress, port)
+                    showReceive(info)
+                }
+            }
+        }
+    }
+
+    open fun updateSocketList() {}
 
     override fun callBack(msg: Message) {
         super.callBack(msg)
         when(msg.what) {
-            RECEIVE_MSG -> {
-                val info = msg.obj as ReceiveInfo
-                showReceive(info)
-            }
             CHECK_THREAD_ALIVE -> {
                 if (thread?.isAlive == true) {
                     mHandler.sendEmptyMessageDelayed(CHECK_THREAD_ALIVE, 100)
@@ -145,7 +207,21 @@ open class BaseSendReceiveActivity : BaseActivity() {
         initThread()
         thread?.start()
         showConnect(true)
-        showToast(resources.getString(R.string.connect_success))
+        // 弹窗
+        connectDialog = ButtonDialog(this).setTittle(resources.getString(R.string.prompt))
+            .setMsg(resources.getString(R.string.connect_ing))
+            .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, object :
+                OnBtnClick {
+                override fun click(d0: BaseDialog<*>, text: String) {
+                    thread = null
+                    showConnect(false)
+                    showToast(resources.getString(R.string.connect_cancel))
+                    d0.dismiss()
+                }
+            })
+            .create()
+        connectDialog?.startLoad(true, 0, 1)
+        connectDialog?.show()
     }
 
     fun clean(view: View) {

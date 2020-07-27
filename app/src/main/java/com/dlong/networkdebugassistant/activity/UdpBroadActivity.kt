@@ -2,10 +2,10 @@ package com.dlong.networkdebugassistant.activity
 
 import android.os.Bundle
 import android.view.View
+import com.dlong.dl10netassistant.UdpBroadThread
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.bean.UdpBroadConfiguration
 import com.dlong.networkdebugassistant.constant.DBConstant
-import com.dlong.networkdebugassistant.thread.UdpBroadThread
 
 class UdpBroadActivity : BaseSendReceiveActivity() {
 
@@ -23,7 +23,7 @@ class UdpBroadActivity : BaseSendReceiveActivity() {
     override fun initThread() {
         super.initThread()
         val cc = config as UdpBroadConfiguration
-        thread = UdpBroadThread(this, mHandler, cc.localPort)
+        thread = UdpBroadThread(this, cc.localPort, netListener)
     }
 
     override fun openSetting() {

@@ -41,7 +41,9 @@
         <activity
             android:name=".activity.TcpServerActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activity.TcpServerSettingActivity"></activity>
+        <activity
+            android:name=".activity.TcpServerSettingActivity"
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>
