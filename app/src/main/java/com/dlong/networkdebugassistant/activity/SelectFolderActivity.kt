@@ -85,20 +85,20 @@ class SelectFolderActivity : BaseActivity() {
                 tips = tips.replace("**", info.name)
                 ButtonDialog(this).setTittle(resources.getString(R.string.prompt))
                     .setMsg(tips)
-                    .addAction(resources.getString(R.string.folder_edit_name), ButtonStyle.THEME, object : OnBtnClick{
-                        override fun click(d0: BaseDialog<*>, text: String) {
+                    .addAction(resources.getString(R.string.folder_edit_name), ButtonStyle.THEME) {
+                        onClick { dialog, _ ->
                             // 重命名
                             renameFolder(info)
-                            d0.dismiss()
+                            dialog.dismiss()
                         }
-                    })
-                    .addAction(resources.getString(R.string.delete), ButtonStyle.ERROR, object : OnBtnClick{
-                        override fun click(d0: BaseDialog<*>, text: String) {
+                    }
+                    .addAction(resources.getString(R.string.delete), ButtonStyle.ERROR) {
+                        onClick { dialog, _ ->
                             // 删除
                             deleteFolder(info)
-                            d0.dismiss()
+                            dialog.dismiss()
                         }
-                    })
+                    }
                     .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
                     .create().show()
             }
@@ -134,9 +134,8 @@ class SelectFolderActivity : BaseActivity() {
         EditDialog(this).setTittle(resources.getString(R.string.prompt))
             .setMsg(resources.getString(R.string.folder_create_new_folder))
             .addEdit(tag, "", resources.getString(R.string.please_input_new_folder_name))
-            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME, object : OnBtnClick{
-                override fun click(d0: BaseDialog<*>, text: String) {
-                    val dialog = d0 as EditDialog
+            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME) {
+                onClick { dialog, _ ->
                     val value = dialog.getInputText(tag)
                     when {
                         value.isEmpty() -> {
@@ -158,7 +157,7 @@ class SelectFolderActivity : BaseActivity() {
                         }
                     }
                 }
-            })
+            }
             .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
             .create().show()
     }
@@ -178,9 +177,8 @@ class SelectFolderActivity : BaseActivity() {
         EditDialog(this).setTittle(resources.getString(R.string.prompt))
             .setMsg(tips)
             .addEdit(tag, folder.name, resources.getString(R.string.please_input_new_folder_name))
-            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME, object : OnBtnClick{
-                override fun click(d0: BaseDialog<*>, text: String) {
-                    val dialog = d0 as EditDialog
+            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME) {
+                onClick { dialog, _ ->
                     val value = dialog.getInputText(tag)
                     when {
                         value.isEmpty() -> {
@@ -202,7 +200,7 @@ class SelectFolderActivity : BaseActivity() {
                         }
                     }
                 }
-            })
+            }
             .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
             .create().show()
     }
@@ -215,16 +213,16 @@ class SelectFolderActivity : BaseActivity() {
         tips = tips.replace("**", folder.name)
         ButtonDialog(this).setTittle(resources.getString(R.string.prompt))
             .setMsg(tips)
-            .addAction(resources.getString(R.string.delete), ButtonStyle.ERROR, object : OnBtnClick{
-                override fun click(d0: BaseDialog<*>, text: String) {
+            .addAction(resources.getString(R.string.delete), ButtonStyle.ERROR) {
+                onClick { dialog, _ ->
                     // 删除
                     val file = File(folder.path)
                     file.delete()
                     // 更新文件夹列表
                     updateArray()
-                    d0.dismiss()
+                    dialog.dismiss()
                 }
-            })
+            }
             .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
             .create().show()
     }

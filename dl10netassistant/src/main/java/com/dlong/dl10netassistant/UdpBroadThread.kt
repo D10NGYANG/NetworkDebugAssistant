@@ -17,10 +17,16 @@ class UdpBroadThread constructor(
     // 上下文
     private val mContext: Context,
     // 端口
-    private val mPort: Int,
-    // 监听器
-    private val mListener: OnNetThreadListener
-) : BaseNetThread(mListener) {
+    private val mPort: Int
+) : BaseNetThread() {
+
+    constructor(mContext: Context, mPort: Int, listener: OnNetThreadListener): this(mContext, mPort) {
+        super.setThreadListener(listener)
+    }
+
+    constructor(mContext: Context, mPort: Int, listener: NetThreadListener.() -> Unit): this(mContext, mPort) {
+        super.setThreadListener(listener)
+    }
 
     private lateinit var dgSocket: DatagramSocket
     /** Wi-Fi锁 */
@@ -43,11 +49,13 @@ class UdpBroadThread constructor(
             dgSocket.bind(InetSocketAddress(mPort))
         } catch (e: Exception) {
             // 启动失败
-            mListener.onConnectFailed("")
+            listener?.onConnectFailed("")
+            listenerLambda?.onConnectFailed("")
             return
         }
         // 启动成功
-        mListener.onConnected("")
+        listener?.onConnected("")
+        listenerLambda?.onConnected("")
 
         isRun = true
         var packet: DatagramPacket
@@ -62,13 +70,15 @@ class UdpBroadThread constructor(
             // 拿到数据
             val data = packet.data.copyOfRange(0, packet.length)
 
-            mListener.onReceive(address, packet.port, curTime, data)
+            listener?.onReceive(address, packet.port, curTime, data)
+            listenerLambda?.onReceive(address, packet.port, curTime, data)
         }
         // 关闭
         dgSocket.disconnect()
         dgSocket.close()
         releaseLock()
-        mListener.onDisconnect("")
+        listener?.onDisconnect("")
+        listenerLambda?.onDisconnect("")
     }
 
     @Synchronized
@@ -97,7 +107,8 @@ class UdpBroadThread constructor(
                 val packet = DatagramPacket(data, data.size, InetAddress.getByName(address), toPort)
                 dgSocket.send(packet)
             } catch (e: Exception) {
-                mListener.onError(address, e.toString())
+                listener?.onError(address, e.toString())
+                listenerLambda?.onError(address, e.toString())
             }
         }).start()
     }

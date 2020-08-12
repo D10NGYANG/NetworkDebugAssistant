@@ -6,9 +6,28 @@ package com.dlong.dl10netassistant
  * @author D10NG
  * @date on 2020/4/27 4:41 PM
  */
-open class BaseNetThread constructor(
-    listener: OnNetThreadListener
-) : Thread() {
+open class BaseNetThread constructor() : Thread() {
+
+    constructor(listener: NetThreadListener.() -> Unit): this() {
+        this.listenerLambda = NetThreadListener()
+        this.listenerLambda?.listener()
+    }
+
+    constructor(listener: OnNetThreadListener): this() {
+        this.listener = listener
+    }
+
+    protected var listener: OnNetThreadListener? = null
+    protected var listenerLambda: NetThreadListener? = null
+
+    open fun setThreadListener(listener: OnNetThreadListener) {
+        this.listener = listener
+    }
+
+    open fun setThreadListener(listener: NetThreadListener.() -> Unit) {
+        this.listenerLambda = NetThreadListener()
+        this.listenerLambda?.listener()
+    }
 
     /**
      * 获取系统时间戳
@@ -50,4 +69,54 @@ interface OnNetThreadListener {
 
     /** 接收到数据 */
     fun onReceive(ipAddress: String, port: Int, time: Long, data: ByteArray)
+}
+
+class NetThreadListener: OnNetThreadListener {
+    private lateinit var listener1: (ipAddress: String) -> Unit
+    fun onThreadConnected(listener: (ipAddress: String) -> Unit) {
+        this.listener1 = listener
+    }
+    override fun onConnected(ipAddress: String) {
+        this.listener1.invoke(ipAddress)
+    }
+
+    private lateinit var listener2: (ipAddress: String) -> Unit
+    fun onThreadConnectFailed(listener: (ipAddress: String) -> Unit) {
+        this.listener2 = listener
+    }
+    override fun onConnectFailed(ipAddress: String) {
+        this.listener2.invoke(ipAddress)
+    }
+
+    private lateinit var listener3: (ipAddress: String) -> Unit
+    fun onThreadDisconnect(listener: (ipAddress: String) -> Unit) {
+        this.listener3 = listener
+    }
+    override fun onDisconnect(ipAddress: String) {
+        this.listener3.invoke(ipAddress)
+    }
+
+    private lateinit var listener4: (ipAddress: String, error: String) -> Unit
+    fun onThreadError(listener: (ipAddress: String, error: String) -> Unit) {
+        this.listener4 = listener
+    }
+    override fun onError(ipAddress: String, error: String) {
+        this.listener4.invoke(ipAddress, error)
+    }
+
+    private lateinit var listener5: (ipAddress: String) -> Unit
+    fun onThreadAcceptSocket(listener: (ipAddress: String) -> Unit) {
+        this.listener5 = listener
+    }
+    override fun onAcceptSocket(ipAddress: String) {
+        this.listener5.invoke(ipAddress)
+    }
+
+    private lateinit var listener6: (ipAddress: String, port: Int, time: Long, data: ByteArray) -> Unit
+    fun onThreadReceive(listener: (ipAddress: String, port: Int, time: Long, data: ByteArray) -> Unit) {
+        this.listener6 = listener
+    }
+    override fun onReceive(ipAddress: String, port: Int, time: Long, data: ByteArray) {
+        this.listener6.invoke(ipAddress, port, time, data)
+    }
 }

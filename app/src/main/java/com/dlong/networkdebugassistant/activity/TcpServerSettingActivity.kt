@@ -52,9 +52,8 @@ class TcpServerSettingActivity : BaseSettingActivity() {
             .setMsg(resources.getString(R.string.local_port))
             .addEdit(tag, "${cc.localPort}", resources.getString(R.string.please_input_port))
             .setInputType(tag, InputType.TYPE_CLASS_NUMBER)
-            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME, object : OnBtnClick {
-                override fun click(d0: BaseDialog<*>, text: String) {
-                    val dialog = d0 as EditDialog
+            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME) {
+                onClick { dialog, _ ->
                     val value = dialog.getInputText(tag)
                     if (value.isEmpty()) {
                         dialog.setError(tag, resources.getString(R.string.input_port_can_not_empty))
@@ -69,7 +68,7 @@ class TcpServerSettingActivity : BaseSettingActivity() {
                         }
                     }
                 }
-            })
+            }
             .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
             .create().show()
     }

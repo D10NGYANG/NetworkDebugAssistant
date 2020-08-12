@@ -61,12 +61,12 @@ class HistoryActivity : BaseActivity() {
                 if (info.text.length > length) tips = "$tips..."
                 ButtonDialog(this).setTittle(resources.getString(R.string.prompt))
                     .setMsg(tips)
-                    .addAction(resources.getString(R.string.delete), ButtonStyle.ERROR, object : OnBtnClick{
-                        override fun click(d0: BaseDialog<*>, text: String) {
+                    .addAction(resources.getString(R.string.delete), ButtonStyle.ERROR) {
+                        onClick { dialog, _ ->
                             viewModel.deleteHistory(info)
-                            d0.dismiss()
+                            dialog.dismiss()
                         }
-                    })
+                    }
                     .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
                     .create().show()
             }

@@ -12,10 +12,16 @@ import java.net.Socket
  */
 class TcpServerThread constructor(
     // 服务器端口
-    private val mPort: Int,
-    // 监听器
-    private val mListener: OnNetThreadListener
-) : BaseNetThread(mListener) {
+    private val mPort: Int
+) : BaseNetThread() {
+
+    constructor(mPort: Int, listener: OnNetThreadListener): this(mPort) {
+        super.setThreadListener(listener)
+    }
+
+    constructor(mPort: Int, listener: NetThreadListener.() -> Unit): this(mPort) {
+        super.setThreadListener(listener)
+    }
 
     private lateinit var serverSocket: ServerSocket
     /** 连接列表 */
@@ -35,11 +41,13 @@ class TcpServerThread constructor(
         } catch (e: Exception) {
             // 打开服务器失败
             serverSocket = ServerSocket()
-            mListener.onConnectFailed("")
+            listener?.onConnectFailed("")
+            listenerLambda?.onConnectFailed("")
             return
         }
         // 打开服务器成功
-        mListener.onConnected("")
+        listener?.onConnected("")
+        listenerLambda?.onConnected("")
         serverSocket.reuseAddress = true
 
         isRun = true
@@ -48,7 +56,8 @@ class TcpServerThread constructor(
                 try {
                     serverSocket.accept()
                 } catch (e: Exception) {
-                    mListener.onError("", e.toString())
+                    listener?.onError("", e.toString())
+                    listenerLambda?.onError("", e.toString())
                     break
                 }
             if (socket != null) {
@@ -61,13 +70,15 @@ class TcpServerThread constructor(
         }
         // 服务器关闭
         serverSocket.close()
-        mListener.onDisconnect("")
+        listener?.onDisconnect("")
+        listenerLambda?.onDisconnect("")
     }
 
     /** 启动循环监听连接消息 */
     private fun startAcceptSocket(key: String, socket: Socket) {
         // 有客户端连接进来
-        mListener.onAcceptSocket(socket.remoteSocketAddress.toString())
+        listener?.onAcceptSocket(socket.remoteSocketAddress.toString())
+        listenerLambda?.onAcceptSocket(socket.remoteSocketAddress.toString())
         Thread(Runnable {
             val inputStream = socket.getInputStream()
             while (isRun && socket.isConnected) {
@@ -83,13 +94,16 @@ class TcpServerThread constructor(
                 }
                 if (len > 0) {
                     // 接受数据
-                    mListener.onReceive(socket.remoteSocketAddress.toString(),
+                    listener?.onReceive(socket.remoteSocketAddress.toString(),
+                        socket.port, curTime, buffer.copyOfRange(0, len))
+                    listenerLambda?.onReceive(socket.remoteSocketAddress.toString(),
                         socket.port, curTime, buffer.copyOfRange(0, len))
                 }
             }
             // 断开连接
             Log.e("TCP SERVER", "$key 已断开连接")
-            mListener.onDisconnect(socket.remoteSocketAddress.toString())
+            listener?.onDisconnect(socket.remoteSocketAddress.toString())
+            listenerLambda?.onDisconnect(socket.remoteSocketAddress.toString())
             socketList.remove(key)
         }).start()
     }
@@ -116,7 +130,8 @@ class TcpServerThread constructor(
                 socket.getOutputStream().write(data)
                 socket.getOutputStream().flush()
             } catch (e: Exception) {
-                mListener.onError(address, e.toString())
+                listener?.onError(address, e.toString())
+                listenerLambda?.onError(address, e.toString())
             }
         }).start()
     }
@@ -130,7 +145,8 @@ class TcpServerThread constructor(
                     socket.getOutputStream().flush()
                 }
             } catch (e: Exception) {
-                mListener.onError("", e.toString())
+                listener?.onError("", e.toString())
+                listenerLambda?.onError("", e.toString())
             }
         }).start()
     }

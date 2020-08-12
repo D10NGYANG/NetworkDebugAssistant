@@ -60,9 +60,8 @@ class UdpMultiSettingActivity : BaseSettingActivity() {
             .setMsg(resources.getString(R.string.local_port))
             .addEdit(tag, "${cc.localPort}", resources.getString(R.string.please_input_port))
             .setInputType(tag, InputType.TYPE_CLASS_NUMBER)
-            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME, object : OnBtnClick {
-                override fun click(d0: BaseDialog<*>, text: String) {
-                    val dialog = d0 as EditDialog
+            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME) {
+                onClick { dialog, _ ->
                     val value = dialog.getInputText(tag)
                     if (value.isEmpty()) {
                         dialog.setError(tag, resources.getString(R.string.input_port_can_not_empty))
@@ -77,7 +76,7 @@ class UdpMultiSettingActivity : BaseSettingActivity() {
                         }
                     }
                 }
-            })
+            }
             .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
             .create().show()
     }
@@ -90,33 +89,32 @@ class UdpMultiSettingActivity : BaseSettingActivity() {
             .setMsg(resources.getString(R.string.target_multi_ip_address))
             .addEdit(tag, cc.targetIpAddress, resources.getString(R.string.please_input_multi_ip_address))
             .setInputType(tag, InputType.TYPE_NUMBER_FLAG_DECIMAL)
-            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME, object : OnBtnClick {
-                override fun click(d0: BaseDialog<*>, text: String) {
-                    val dialog = d0 as EditDialog
+            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME) {
+                onClick { dialog, _ ->
                     val value = dialog.getInputText(tag)
                     if (value.isEmpty()) {
                         dialog.setError(tag, resources.getString(R.string.input_multi_ip_address_wrong_format))
-                        return
+                        return@onClick
                     }
                     val items = value.split(".")
                     if (items.size != 4) {
                         dialog.setError(tag, resources.getString(R.string.input_multi_ip_address_wrong_format))
-                        return
+                        return@onClick
                     }
                     val builder = StringBuilder()
                     for (i in items.indices) {
                         if (!StringUtils.isNumeric(items[i])) {
                             dialog.setError(tag, resources.getString(R.string.input_multi_ip_address_wrong_format))
-                            return
+                            return@onClick
                         }
                         val num = items[i].toIntOrNull()?: -1
                         if (i == 0 && (num < 224 || num > 239)) {
                             dialog.setError(tag, resources.getString(R.string.input_multi_ip_address_wrong_format))
-                            return
+                            return@onClick
                         }
                         if (num < 0 || num > 255) {
                             dialog.setError(tag, resources.getString(R.string.input_multi_ip_address_wrong_format))
-                            return
+                            return@onClick
                         }
                         builder.append(num).append(".")
                     }
@@ -124,7 +122,7 @@ class UdpMultiSettingActivity : BaseSettingActivity() {
                     updateConfigShow()
                     dialog.dismiss()
                 }
-            })
+            }
             .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
             .create().show()
     }
@@ -137,9 +135,8 @@ class UdpMultiSettingActivity : BaseSettingActivity() {
             .setMsg(resources.getString(R.string.target_port))
             .addEdit(tag, "${cc.targetPort}", resources.getString(R.string.please_input_port))
             .setInputType(tag, InputType.TYPE_CLASS_NUMBER)
-            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME, object : OnBtnClick {
-                override fun click(d0: BaseDialog<*>, text: String) {
-                    val dialog = d0 as EditDialog
+            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME) {
+                onClick { dialog, _ ->
                     val value = dialog.getInputText(tag)
                     if (value.isEmpty()) {
                         dialog.setError(tag, resources.getString(R.string.input_port_can_not_empty))
@@ -154,7 +151,7 @@ class UdpMultiSettingActivity : BaseSettingActivity() {
                         }
                     }
                 }
-            })
+            }
             .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
             .create().show()
     }

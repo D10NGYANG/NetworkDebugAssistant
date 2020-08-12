@@ -116,9 +116,8 @@ open class BaseSettingActivity : BaseActivity(), CompoundButton.OnCheckedChangeL
             .setMsg(resources.getString(R.string.setting_auto_send_loop_time))
             .addEdit(tag, "${contentBind.config?.autoSendTime?: 1000}", resources.getString(R.string.please_input_loop_time))
             .setInputType(tag, InputType.TYPE_CLASS_NUMBER)
-            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME, object : OnBtnClick {
-                override fun click(d0: BaseDialog<*>, text: String) {
-                    val dialog = d0 as EditDialog
+            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME) {
+                onClick { dialog, _ ->
                     val value = dialog.getInputText(tag)
                     if (value.isEmpty()) {
                         dialog.setError(tag, resources.getString(R.string.input_loop_time_can_not_empty))
@@ -133,7 +132,7 @@ open class BaseSettingActivity : BaseActivity(), CompoundButton.OnCheckedChangeL
                         }
                     }
                 }
-            })
+            }
             .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
             .create().show()
     }

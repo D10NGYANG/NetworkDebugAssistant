@@ -12,10 +12,16 @@ class TcpClientThread constructor(
     // 地址
     private val mAddress: String,
     // 端口
-    private val mPort: Int,
-    // 监听器
-    private val mListener: OnNetThreadListener
-) : BaseNetThread(mListener) {
+    private val mPort: Int
+) : BaseNetThread() {
+
+    constructor(mAddress: String, mPort: Int, listener: OnNetThreadListener): this(mAddress, mPort) {
+        super.setThreadListener(listener)
+    }
+
+    constructor(mAddress: String, mPort: Int, listener: NetThreadListener.() -> Unit): this(mAddress, mPort) {
+        super.setThreadListener(listener)
+    }
 
     private lateinit var socket: Socket
 
@@ -28,11 +34,13 @@ class TcpClientThread constructor(
         } catch (e: Exception) {
             // 连接失败
             socket = Socket()
-            mListener.onConnectFailed(mAddress)
+            listener?.onConnectFailed(mAddress)
+            listenerLambda?.onConnectFailed(mAddress)
             return
         }
         // 连接成功
-        mListener.onConnected(mAddress)
+        listener?.onConnected(mAddress)
+        listenerLambda?.onConnected(mAddress)
 
         // 获取输入流
         val inputStream = socket.getInputStream()
@@ -49,11 +57,13 @@ class TcpClientThread constructor(
             }
             if (len > 0) {
                 // 接收到数据
-                mListener.onReceive(mAddress, mPort, curTime, buffer.copyOfRange(0, len))
+                listener?.onReceive(mAddress, mPort, curTime, buffer.copyOfRange(0, len))
+                listenerLambda?.onReceive(mAddress, mPort, curTime, buffer.copyOfRange(0, len))
             }
         }
         // 已断开连接
-        mListener.onDisconnect(mAddress)
+        listener?.onDisconnect(mAddress)
+        listenerLambda?.onDisconnect(mAddress)
     }
 
     override fun isConnected(): Boolean {
@@ -68,7 +78,8 @@ class TcpClientThread constructor(
                 socket.getOutputStream()?.write(data)
                 socket.getOutputStream()?.flush()
             } catch (e: Exception) {
-                mListener.onError(mAddress, e.toString())
+                listener?.onError(mAddress, e.toString())
+                listenerLambda?.onError(mAddress, e.toString())
             }
         }).start()
     }

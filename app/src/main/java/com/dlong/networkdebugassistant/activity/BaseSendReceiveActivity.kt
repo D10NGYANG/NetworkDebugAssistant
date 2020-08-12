@@ -210,18 +210,17 @@ open class BaseSendReceiveActivity : BaseActivity() {
         // 弹窗
         connectDialog = ButtonDialog(this).setTittle(resources.getString(R.string.prompt))
             .setMsg(resources.getString(R.string.connect_ing))
-            .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, object :
-                OnBtnClick {
-                override fun click(d0: BaseDialog<*>, text: String) {
+            .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL) {
+                onClick { dialog, _ ->
                     thread = null
                     showConnect(false)
                     showToast(resources.getString(R.string.connect_cancel))
-                    d0.dismiss()
+                    dialog.dismiss()
                 }
-            })
+            }
             .create()
-        connectDialog?.startLoad(true, 0, 1)
-        connectDialog?.show()
+            .startLoad(true, 0, 1)
+            .show()
     }
 
     fun clean(view: View) {

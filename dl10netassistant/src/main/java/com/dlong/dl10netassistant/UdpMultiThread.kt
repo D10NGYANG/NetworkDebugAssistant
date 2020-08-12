@@ -16,10 +16,16 @@ class UdpMultiThread constructor(
     // 组播地址
     private val multiAddress: String,
     // 端口
-    private val mPort: Int,
-    // 监听器
-    private val mListener: OnNetThreadListener
-) : BaseNetThread(mListener) {
+    private val mPort: Int
+) : BaseNetThread() {
+
+    constructor(mContext: Context, multiAddress: String, mPort: Int, listener: OnNetThreadListener): this(mContext, multiAddress, mPort) {
+        super.setThreadListener(listener)
+    }
+
+    constructor(mContext: Context, multiAddress: String, mPort: Int, listener: NetThreadListener.() -> Unit): this(mContext, multiAddress, mPort) {
+        super.setThreadListener(listener)
+    }
 
     private lateinit var mcSocket: MulticastSocket
     /** Wi-Fi锁 */
@@ -40,11 +46,13 @@ class UdpMultiThread constructor(
             mcSocket = MulticastSocket(mPort)
         } catch (e: Exception) {
             // 启动失败
-            mListener.onConnectFailed("")
+            listener?.onConnectFailed("")
+            listenerLambda?.onConnectFailed("")
             return
         }
         // 启动成功
-        mListener.onConnected("")
+        listener?.onConnected("")
+        listenerLambda?.onConnected("")
         // 加入组
         val group = InetAddress.getByName(multiAddress)
         mcSocket.joinGroup(group)
@@ -65,14 +73,16 @@ class UdpMultiThread constructor(
             // 拿到数据
             val data = packet.data.copyOfRange(0, packet.length)
 
-            mListener.onReceive(address, packet.port, curTime, data)
+            listener?.onReceive(address, packet.port, curTime, data)
+            listenerLambda?.onReceive(address, packet.port, curTime, data)
         }
         // 关闭
         mcSocket.leaveGroup(group)
         mcSocket.disconnect()
         mcSocket.close()
         releaseLock()
-        mListener.onDisconnect("")
+        listener?.onDisconnect("")
+        listenerLambda?.onDisconnect("")
     }
 
     @Synchronized
@@ -97,7 +107,8 @@ class UdpMultiThread constructor(
                 val packet = DatagramPacket(data, data.size, InetAddress.getByName(address), toPort)
                 mcSocket.send(packet)
             } catch (e: Exception) {
-                mListener.onError(address, e.toString())
+                listener?.onError(address, e.toString())
+                listenerLambda?.onError(address, e.toString())
             }
         }).start()
     }
