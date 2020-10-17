@@ -21,7 +21,7 @@
 包括以下功能：
 
 1. udp广播；
-2. udp组播测试；
+2. udp组播；
 3. Tcp客户端；
 4. Tcp服务器；
 
@@ -81,6 +81,7 @@ val thread = UdpBroadThread(this, 12345, object : OnNetThreadListener{
         // 接受到信息，ipAddress消息来源地址，port消息来源端口，time消息到达时间，data消息内容
     }
 })
+thread.start()
 // 发送数据
 thread.send("192.168.1.123", 12345, data)
 ```
@@ -140,6 +141,7 @@ val thread = UdpMultiThread(this, "192.168.11.255", 12345, object : OnNetThreadL
         // 接受到信息，ipAddress消息来源地址，port消息来源端口，time消息到达时间，data消息内容
     }
 })
+thread.start()
 // 发送数据
 thread.send("192.168.11.255", "12345", data)
 ```
@@ -199,6 +201,7 @@ val thread = TcpClientThread("192.168.1.123", 12345, object : OnNetThreadListene
         // 接受到信息，ipAddress消息来源地址，port消息来源端口，time消息到达时间，data消息内容
     }
 })
+thread.start()
 // 发送数据
 thread.send(data)
 ```
@@ -258,6 +261,7 @@ val thread = TcpServerThread(12345, object : OnNetThreadListener{
         // 接受到信息，ipAddress消息来源地址，port消息来源端口，time消息到达时间，data消息内容
     }
 })
+thread.start()
 // 发送数据给特定客户端
 thread.send("192.168.11.255", "12345", data)
 // 发送数据给全部已连接的客户端
