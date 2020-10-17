@@ -14,11 +14,20 @@ android {
         versionName "0.1.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        release {
+            storeFile file('dlong0232372.keystore')
+            storePassword "0232372"
+            keyAlias 'ydl'
+            keyPassword "0232372"
+        }
+    }
     buildTypes {
         debug {
             // 开启打印
             buildConfigField "boolean", "IS_LOG_ENABLE", "true"
             minifyEnabled false
+            signingConfig signingConfigs.release
         }
         release {
             // 关闭打印
