@@ -1,12 +1,7 @@
 package com.dlong.networkdebugassistant.activity
 
 import android.os.Bundle
-import android.os.Message
 import android.view.View
-import com.dlong.dialog.BaseDialog
-import com.dlong.dialog.ButtonDialog
-import com.dlong.dialog.ButtonStyle
-import com.dlong.dialog.OnBtnClick
 import com.dlong.dl10netassistant.TcpClientThread
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.bean.TcpClientConfiguration

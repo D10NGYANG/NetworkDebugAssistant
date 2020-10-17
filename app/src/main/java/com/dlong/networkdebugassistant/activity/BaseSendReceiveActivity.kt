@@ -7,10 +7,8 @@ import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.dlong.dialog.BaseDialog
 import com.dlong.dialog.ButtonDialog
 import com.dlong.dialog.ButtonStyle
-import com.dlong.dialog.OnBtnClick
 import com.dlong.dl10netassistant.BaseNetThread
 import com.dlong.dl10netassistant.OnNetThreadListener
 import com.dlong.networkdebugassistant.R
@@ -24,7 +22,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.StringBuilder
 
 /**
  * 基本发送和接收页面
@@ -102,7 +99,7 @@ open class BaseSendReceiveActivity : BaseActivity() {
                 withContext(Dispatchers.Main) {
                     connectDialog?.dismiss()
                     showConnect(true)
-                    showToast(resources.getString(R.string.connect_success))
+                    showToast(ipAddress + resources.getString(R.string.connect_success))
                 }
             }
         }
@@ -112,7 +109,7 @@ open class BaseSendReceiveActivity : BaseActivity() {
                 withContext(Dispatchers.Main) {
                     disConnectDialog?.dismiss()
                     showConnect(false)
-                    showToast(resources.getString(R.string.disconnect_success))
+                    showToast(ipAddress + resources.getString(R.string.connect_failed))
                 }
             }
         }
@@ -121,8 +118,9 @@ open class BaseSendReceiveActivity : BaseActivity() {
             GlobalScope.launch {
                 withContext(Dispatchers.Main) {
                     disConnectDialog?.dismiss()
-                    showConnect(false)
-                    showToast(resources.getString(R.string.disconnect_success))
+                    showConnect(thread?.isConnected() == true)
+                    showToast(ipAddress + resources.getString(R.string.disconnect_success))
+                    updateSocketList()
                 }
             }
         }

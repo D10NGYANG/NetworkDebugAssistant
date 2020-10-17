@@ -4,16 +4,13 @@ import android.os.Bundle
 import android.text.InputType
 import android.view.View
 import androidx.databinding.DataBindingUtil
-import com.dlong.dialog.BaseDialog
 import com.dlong.dialog.ButtonStyle
 import com.dlong.dialog.EditDialog
-import com.dlong.dialog.OnBtnClick
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.bean.UdpBroadConfiguration
 import com.dlong.networkdebugassistant.constant.DBConstant
 import com.dlong.networkdebugassistant.databinding.ActivityUdpBroadSettingBinding
 import com.dlong.networkdebugassistant.utils.StringUtils
-import java.lang.StringBuilder
 
 class UdpBroadSettingActivity : BaseSettingActivity() {
 

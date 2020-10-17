@@ -5,11 +5,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Message
-import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dlong.dialog.*
+import com.dlong.dialog.ButtonDialog
+import com.dlong.dialog.ButtonStyle
+import com.dlong.dialog.EditDialog
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.adapter.FolderAdapter
 import com.dlong.networkdebugassistant.bean.FolderInfo

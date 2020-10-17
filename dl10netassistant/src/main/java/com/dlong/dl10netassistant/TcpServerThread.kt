@@ -1,6 +1,7 @@
 package com.dlong.dl10netassistant
 
 import android.util.Log
+import java.net.InetSocketAddress
 import java.net.ServerSocket
 import java.net.Socket
 
@@ -37,18 +38,21 @@ class TcpServerThread constructor(
         super.run()
         try {
             // 打开服务器
-            serverSocket = ServerSocket(mPort)
+            serverSocket = ServerSocket()
+            serverSocket.reuseAddress = true
+            serverSocket.bind(InetSocketAddress(mPort))
         } catch (e: Exception) {
             // 打开服务器失败
             serverSocket = ServerSocket()
             listener?.onConnectFailed("")
             listenerLambda?.onConnectFailed("")
+            listener?.onError("", e.toString())
+            listenerLambda?.onError("", e.toString())
             return
         }
         // 打开服务器成功
         listener?.onConnected("")
         listenerLambda?.onConnected("")
-        serverSocket.reuseAddress = true
 
         isRun = true
         while (isRun) {
@@ -68,8 +72,8 @@ class TcpServerThread constructor(
                 startAcceptSocket(key, socket)
             }
         }
+        this.close()
         // 服务器关闭
-        serverSocket.close()
         listener?.onDisconnect("")
         listenerLambda?.onDisconnect("")
     }
@@ -152,7 +156,13 @@ class TcpServerThread constructor(
     }
 
     override fun close() {
-        super.close()
         isRun = false
+        try {
+            serverSocket.close()
+        } catch (e: Exception) {
+            listener?.onError("", e.toString())
+            listenerLambda?.onError("", e.toString())
+        }
+        super.close()
     }
 }

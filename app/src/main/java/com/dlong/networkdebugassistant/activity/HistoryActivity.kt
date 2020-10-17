@@ -6,10 +6,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dlong.dialog.BaseDialog
 import com.dlong.dialog.ButtonDialog
 import com.dlong.dialog.ButtonStyle
-import com.dlong.dialog.OnBtnClick
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.adapter.HistoryAdapter
 import com.dlong.networkdebugassistant.bean.HistoryInfo
