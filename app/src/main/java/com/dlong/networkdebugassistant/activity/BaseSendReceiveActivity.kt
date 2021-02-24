@@ -7,8 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.dlong.dialog.ButtonDialog
-import com.dlong.dialog.ButtonStyle
+import com.dlong.dialog.*
 import com.dlong.dl10netassistant.BaseNetThread
 import com.dlong.dl10netassistant.OnNetThreadListener
 import com.dlong.networkdebugassistant.R
@@ -18,10 +17,7 @@ import com.dlong.networkdebugassistant.bean.ReceiveInfo
 import com.dlong.networkdebugassistant.databinding.ActivitySendReceiveBinding
 import com.dlong.networkdebugassistant.model.HistoryModel
 import com.dlong.networkdebugassistant.utils.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 /**
  * 基本发送和接收页面
@@ -37,7 +33,7 @@ open class BaseSendReceiveActivity : BaseActivity() {
 
     protected var thread: BaseNetThread? = null
     protected var connectDialog: ButtonDialog? = null
-    protected var disConnectDialog: ButtonDialog? = null
+    protected var disConnectDialog: JustLoadDialog? = null
 
     companion object{
         const val CHECK_THREAD_ALIVE = 1
@@ -84,12 +80,32 @@ open class BaseSendReceiveActivity : BaseActivity() {
         super.onResume()
         initConfig()
         // 显示当前IP地址
-        binding.localIpAddress = NetUtils.localIPAddress
+        startCheckIpJob()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        checkIpJob.cancel()
     }
 
     override fun onDestroy() {
         thread?.close()
         super.onDestroy()
+    }
+
+    private var checkIpJob: Job = Job()
+    private fun startCheckIpJob() {
+        checkIpJob = GlobalScope.launch {
+            while (isActive) {
+                if (binding.localIpAddress != NetUtils.localIPAddress) {
+                    withContext(Dispatchers.Main) {
+                        // 显示当前IP地址
+                        binding.localIpAddress = NetUtils.localIPAddress
+                    }
+                }
+                delay(1000)
+            }
+        }
     }
 
     /** 监听器 */
@@ -147,7 +163,9 @@ open class BaseSendReceiveActivity : BaseActivity() {
         }
     }
 
-    open fun updateSocketList() {}
+    open fun updateSocketList() {
+
+    }
 
     override fun callBack(msg: Message) {
         super.callBack(msg)
@@ -179,11 +197,7 @@ open class BaseSendReceiveActivity : BaseActivity() {
     fun connectOrNot(view: View) {
         if (binding.isConnect) {
             // 断开
-            disConnectDialog = ButtonDialog(this).setTittle(resources.getString(R.string.prompt))
-                .setMsg(resources.getString(R.string.disconnect_ing))
-                .create()
-            disConnectDialog?.startLoad(true, 0, 1)
-            disConnectDialog?.show()
+            disConnectDialog = JustLoadDialog(this).create()
             thread?.close()
             thread = null
             mHandler.sendEmptyMessageDelayed(CHECK_THREAD_ALIVE, 100)
@@ -206,7 +220,8 @@ open class BaseSendReceiveActivity : BaseActivity() {
         thread?.start()
         showConnect(true)
         // 弹窗
-        connectDialog = ButtonDialog(this).setTittle(resources.getString(R.string.prompt))
+        connectDialog = ButtonDialog(this).create()
+            .setTittle(resources.getString(R.string.prompt))
             .setMsg(resources.getString(R.string.connect_ing))
             .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL) {
                 onClick { dialog, _ ->
@@ -216,8 +231,7 @@ open class BaseSendReceiveActivity : BaseActivity() {
                     dialog.dismiss()
                 }
             }
-            .create()
-            .startLoad(true, 0, 1)
+            .startLoad(true)
             .show()
     }
 
@@ -268,6 +282,16 @@ open class BaseSendReceiveActivity : BaseActivity() {
         AppUtils.copyToClipboard(this, binding.txtReceive.text.toString())
         showToast(resources.getString(R.string.copy_to_clip_success))
     }
+
+    /**
+     * 断开接入链接
+     * @param view View
+     */
+    fun disconnectSocket(view: View) {
+        disconnectSocket()
+    }
+
+    open fun disconnectSocket() {}
 
     /**
      * 显示是否连接

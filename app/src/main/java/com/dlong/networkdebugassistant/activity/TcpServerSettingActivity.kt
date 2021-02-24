@@ -4,8 +4,7 @@ import android.os.Bundle
 import android.text.InputType
 import android.view.View
 import androidx.databinding.DataBindingUtil
-import com.dlong.dialog.ButtonStyle
-import com.dlong.dialog.EditDialog
+import com.dlong.dialog.*
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.bean.TcpServerConfiguration
 import com.dlong.networkdebugassistant.constant.DBConstant
@@ -45,7 +44,7 @@ class TcpServerSettingActivity : BaseSettingActivity() {
     fun setLocalPort(view: View) {
         val cc = binding.contentBase.config as TcpServerConfiguration
         val tag = "port"
-        EditDialog(this)
+        EditDialog(this).create()
             .setTittle(resources.getString(R.string.prompt))
             .setMsg(resources.getString(R.string.local_port))
             .addEdit(tag, "${cc.localPort}", resources.getString(R.string.please_input_port))
@@ -67,7 +66,7 @@ class TcpServerSettingActivity : BaseSettingActivity() {
                     }
                 }
             }
-            .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
-            .create().show()
+            .addAction(resources.getString(R.string.cancel))
+            .show()
     }
 }

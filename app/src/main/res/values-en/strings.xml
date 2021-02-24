@@ -19,6 +19,7 @@
     <string name="main_udp_multi">UDP Multicast</string>
     <string name="main_tcp_client">TCP Client</string>
     <string name="main_tcp_server">TCP Server</string>
+    <string name="main_ping">PING</string>
 
     <!-- SettingActivity -->
     <string name="setting_tittle">Setting</string>
@@ -29,6 +30,7 @@
     <string name="history">History</string>
     <string name="send">Send</string>
     <string name="local_ip_address">LOCAL IP：</string>
+    <string name="disconnect">disconnect</string>
 
     <!-- UdpBroadSettingActivity -->
     <string name="udp_broad_setting_tittle">UDP Broadcast Setting</string>
@@ -95,4 +97,7 @@
     <!-- HistoryActivity -->
     <string name="history_tittle">Send History</string>
     <string name="history_edit_tips">You can perform the following operations on the history sending text [**]</string>
+
+    <!-- PingActivity -->
+    <string name="input_address_hint">Please enter the address</string>
 </resources>

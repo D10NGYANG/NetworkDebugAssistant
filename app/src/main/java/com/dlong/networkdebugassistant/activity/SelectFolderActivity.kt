@@ -8,9 +8,7 @@ import android.os.Message
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dlong.dialog.ButtonDialog
-import com.dlong.dialog.ButtonStyle
-import com.dlong.dialog.EditDialog
+import com.dlong.dialog.*
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.adapter.FolderAdapter
 import com.dlong.networkdebugassistant.bean.FolderInfo
@@ -84,7 +82,8 @@ class SelectFolderActivity : BaseActivity() {
                 val info = msg.obj as FolderInfo
                 var tips = resources.getString(R.string.folder_edit_tips)
                 tips = tips.replace("**", info.name)
-                ButtonDialog(this).setTittle(resources.getString(R.string.prompt))
+                ButtonDialog(this).create()
+                    .setTittle(resources.getString(R.string.prompt))
                     .setMsg(tips)
                     .addAction(resources.getString(R.string.folder_edit_name), ButtonStyle.THEME) {
                         onClick { dialog, _ ->
@@ -100,8 +99,8 @@ class SelectFolderActivity : BaseActivity() {
                             dialog.dismiss()
                         }
                     }
-                    .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
-                    .create().show()
+                    .addAction(resources.getString(R.string.cancel))
+                    .show()
             }
         }
     }
@@ -132,7 +131,8 @@ class SelectFolderActivity : BaseActivity() {
             return
         }
         val tag = "name"
-        EditDialog(this).setTittle(resources.getString(R.string.prompt))
+        EditDialog(this).create()
+            .setTittle(resources.getString(R.string.prompt))
             .setMsg(resources.getString(R.string.folder_create_new_folder))
             .addEdit(tag, "", resources.getString(R.string.please_input_new_folder_name))
             .addAction(resources.getString(R.string.sure), ButtonStyle.THEME) {
@@ -159,8 +159,8 @@ class SelectFolderActivity : BaseActivity() {
                     }
                 }
             }
-            .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
-            .create().show()
+            .addAction(resources.getString(R.string.cancel))
+            .show()
     }
 
     /**
@@ -175,7 +175,8 @@ class SelectFolderActivity : BaseActivity() {
         val tag = "name"
         var tips = resources.getString(R.string.folder_edit_new_folder_name)
         tips = tips.replace("**", folder.name)
-        EditDialog(this).setTittle(resources.getString(R.string.prompt))
+        EditDialog(this).create()
+            .setTittle(resources.getString(R.string.prompt))
             .setMsg(tips)
             .addEdit(tag, folder.name, resources.getString(R.string.please_input_new_folder_name))
             .addAction(resources.getString(R.string.sure), ButtonStyle.THEME) {
@@ -202,8 +203,8 @@ class SelectFolderActivity : BaseActivity() {
                     }
                 }
             }
-            .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
-            .create().show()
+            .addAction(resources.getString(R.string.cancel))
+            .show()
     }
 
     /**
@@ -212,7 +213,8 @@ class SelectFolderActivity : BaseActivity() {
     private fun deleteFolder(folder: FolderInfo) {
         var tips = resources.getString(R.string.folder_delete_sure)
         tips = tips.replace("**", folder.name)
-        ButtonDialog(this).setTittle(resources.getString(R.string.prompt))
+        ButtonDialog(this).create()
+            .setTittle(resources.getString(R.string.prompt))
             .setMsg(tips)
             .addAction(resources.getString(R.string.delete), ButtonStyle.ERROR) {
                 onClick { dialog, _ ->
@@ -224,8 +226,8 @@ class SelectFolderActivity : BaseActivity() {
                     dialog.dismiss()
                 }
             }
-            .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
-            .create().show()
+            .addAction(resources.getString(R.string.cancel))
+            .show()
     }
 
     /**

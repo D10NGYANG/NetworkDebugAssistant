@@ -3,8 +3,7 @@ package com.dlong.networkdebugassistant.activity
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
-import com.dlong.dialog.ButtonStyle
-import com.dlong.dialog.VersionInfoDialog
+import com.dlong.dialog.*
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.databinding.ActivitySettingBinding
 import com.dlong.networkdebugassistant.utils.AppUtils
@@ -30,11 +29,11 @@ class SettingActivity : BaseActivity() {
      */
     fun openVersionDialog(view: View) {
         val info = AppUtils.getVersionReadMe(this, binding.txtVersion?: "")
-        VersionInfoDialog(this)
+        VersionInfoDialog(this).create()
             .setTittle(resources.getString(R.string.setting_version))
             .setIcon(R.mipmap.ic_launcher_web)
             .addVersionInfo(info.version, info.time, info.author, info.content)
-            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME, null)
-            .create().show()
+            .addAction(resources.getString(R.string.sure), ButtonStyle.THEME)
+            .show()
     }
 }

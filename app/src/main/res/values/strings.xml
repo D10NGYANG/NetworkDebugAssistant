@@ -19,6 +19,7 @@
     <string name="main_udp_multi">UDP组播</string>
     <string name="main_tcp_client">TCP客户端</string>
     <string name="main_tcp_server">TCP服务器</string>
+    <string name="main_ping">ping指令</string>
 
     <!-- SettingActivity -->
     <string name="setting_tittle">设置</string>
@@ -29,6 +30,7 @@
     <string name="history">历史</string>
     <string name="send">发送</string>
     <string name="local_ip_address">本机IP：</string>
+    <string name="disconnect">断开</string>
 
     <!-- UdpBroadSettingActivity -->
     <string name="udp_broad_setting_tittle">UDP广播配置</string>
@@ -95,4 +97,7 @@
     <!-- HistoryActivity -->
     <string name="history_tittle">发送历史</string>
     <string name="history_edit_tips">您可以对历史发送文本【**】进行如下操作</string>
+
+    <!-- PingActivity -->
+    <string name="input_address_hint">请输入目标地址</string>
 </resources>

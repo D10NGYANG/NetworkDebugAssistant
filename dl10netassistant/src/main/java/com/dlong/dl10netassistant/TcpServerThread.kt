@@ -122,6 +122,28 @@ class TcpServerThread constructor(
         return list.toList()
     }
 
+    /** 根据名字获取socket */
+    fun getSocketByName(name: String): Socket? {
+        for (socket in socketList.values) {
+            if (socket.remoteSocketAddress.toString().replace("/", "") == name) return socket
+        }
+        return null
+    }
+
+    /** 读取接入列表 */
+    fun getSocketList(): List<Socket> {
+        return socketList.values.toList()
+    }
+
+    /** 断开链接 */
+    fun disconnectSocket(s: Socket) {
+        try {
+            s.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     override fun isConnected(): Boolean {
         return isRun
     }

@@ -6,8 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dlong.dialog.ButtonDialog
-import com.dlong.dialog.ButtonStyle
+import com.dlong.dialog.*
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.adapter.HistoryAdapter
 import com.dlong.networkdebugassistant.bean.HistoryInfo
@@ -57,7 +56,8 @@ class HistoryActivity : BaseActivity() {
                 val length = 10
                 tips = tips.replace("**", info.text.substring(0, length.coerceAtMost(info.text.length)))
                 if (info.text.length > length) tips = "$tips..."
-                ButtonDialog(this).setTittle(resources.getString(R.string.prompt))
+                ButtonDialog(this).create()
+                    .setTittle(resources.getString(R.string.prompt))
                     .setMsg(tips)
                     .addAction(resources.getString(R.string.delete), ButtonStyle.ERROR) {
                         onClick { dialog, _ ->
@@ -65,8 +65,8 @@ class HistoryActivity : BaseActivity() {
                             dialog.dismiss()
                         }
                     }
-                    .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
-                    .create().show()
+                    .addAction(resources.getString(R.string.cancel))
+                    .show()
             }
         }
     }

@@ -7,8 +7,7 @@ import android.content.pm.PackageManager
 import android.text.InputType
 import android.view.View
 import android.widget.CompoundButton
-import com.dlong.dialog.ButtonStyle
-import com.dlong.dialog.EditDialog
+import com.dlong.dialog.*
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.databinding.ContentBaseSettingBinding
 
@@ -108,7 +107,7 @@ open class BaseSettingActivity : BaseActivity(), CompoundButton.OnCheckedChangeL
 
     fun setLoopTime(view: View) {
         val tag = "time"
-        EditDialog(this)
+        EditDialog(this).create()
             .setTittle(resources.getString(R.string.prompt))
             .setMsg(resources.getString(R.string.setting_auto_send_loop_time))
             .addEdit(tag, "${contentBind.config?.autoSendTime?: 1000}", resources.getString(R.string.please_input_loop_time))
@@ -130,8 +129,8 @@ open class BaseSettingActivity : BaseActivity(), CompoundButton.OnCheckedChangeL
                     }
                 }
             }
-            .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
-            .create().show()
+            .addAction(resources.getString(R.string.cancel))
+            .show()
     }
 
     fun openLocalPathManager(view: View) {

@@ -20,7 +20,7 @@ class TcpServerActivity : BaseSendReceiveActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTittle(resources.getString(R.string.main_tcp_server))
-        binding.spSocket.visibility = View.VISIBLE
+        binding.isShowSocketList = true
 
         socketAdapter = ArrayAdapter(this, R.layout.item_socket_spinner, socketList)
         socketAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -54,6 +54,14 @@ class TcpServerActivity : BaseSendReceiveActivity() {
         socketAdapter.notifyDataSetChanged()
         val pos = 0.coerceAtLeast(socketList.indexOf(oldSelect))
         binding.spSocket.setSelection(pos)
+    }
+
+    override fun disconnectSocket() {
+        super.disconnectSocket()
+        val name = (binding.spSocket.selectedItem as String?)?: ""
+        val tt = thread as TcpServerThread
+        val socket = tt.getSocketByName(name)?: return
+        tt.disconnectSocket(socket)
     }
 
     override fun sendData(data: ByteArray) {

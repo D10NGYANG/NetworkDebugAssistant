@@ -12,7 +12,7 @@ class UdpBroadActivity : BaseSendReceiveActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTittle(resources.getString(R.string.main_udp_broad))
-        binding.spSocket.visibility = View.GONE
+        binding.isShowSocketList = false
     }
 
     override fun initConfig() {

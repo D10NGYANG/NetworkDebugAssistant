@@ -4,8 +4,7 @@ import android.os.Bundle
 import android.text.InputType
 import android.view.View
 import androidx.databinding.DataBindingUtil
-import com.dlong.dialog.ButtonStyle
-import com.dlong.dialog.EditDialog
+import com.dlong.dialog.*
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.bean.UdpBroadConfiguration
 import com.dlong.networkdebugassistant.constant.DBConstant
@@ -48,7 +47,7 @@ class UdpBroadSettingActivity : BaseSettingActivity() {
     fun setLocalPort(view: View) {
         val cc = binding.contentBase.config as UdpBroadConfiguration
         val tag = "port"
-        EditDialog(this)
+        EditDialog(this).create()
             .setTittle(resources.getString(R.string.prompt))
             .setMsg(resources.getString(R.string.local_port))
             .addEdit(tag, "${cc.localPort}", resources.getString(R.string.please_input_port))
@@ -70,14 +69,14 @@ class UdpBroadSettingActivity : BaseSettingActivity() {
                     }
                 }
             }
-            .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
-            .create().show()
+            .addAction(resources.getString(R.string.cancel))
+            .show()
     }
 
     fun setTargetIpAddress(view: View) {
         val cc = binding.contentBase.config as UdpBroadConfiguration
         val tag = "ip"
-        EditDialog(this)
+        EditDialog(this).create()
             .setTittle(resources.getString(R.string.prompt))
             .setMsg(resources.getString(R.string.target_ip_address))
             .addEdit(tag, cc.targetIpAddress, resources.getString(R.string.please_input_ip_address))
@@ -112,14 +111,14 @@ class UdpBroadSettingActivity : BaseSettingActivity() {
                     dialog.dismiss()
                 }
             }
-            .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
-            .create().show()
+            .addAction(resources.getString(R.string.cancel))
+            .show()
     }
 
     fun setTargetPort(view: View) {
         val cc = binding.contentBase.config as UdpBroadConfiguration
         val tag = "port"
-        EditDialog(this)
+        EditDialog(this).create()
             .setTittle(resources.getString(R.string.prompt))
             .setMsg(resources.getString(R.string.target_port))
             .addEdit(tag, "${cc.targetPort}", resources.getString(R.string.please_input_port))
@@ -141,7 +140,7 @@ class UdpBroadSettingActivity : BaseSettingActivity() {
                     }
                 }
             }
-            .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
-            .create().show()
+            .addAction(resources.getString(R.string.cancel))
+            .show()
     }
 }

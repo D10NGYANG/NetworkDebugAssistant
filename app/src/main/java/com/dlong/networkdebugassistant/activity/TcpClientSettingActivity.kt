@@ -4,8 +4,7 @@ import android.os.Bundle
 import android.text.InputType
 import android.view.View
 import androidx.databinding.DataBindingUtil
-import com.dlong.dialog.ButtonStyle
-import com.dlong.dialog.EditDialog
+import com.dlong.dialog.*
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.bean.TcpClientConfiguration
 import com.dlong.networkdebugassistant.constant.DBConstant
@@ -47,7 +46,7 @@ class TcpClientSettingActivity : BaseSettingActivity() {
     fun setTargetIpAddress(view: View) {
         val cc = binding.contentBase.config as TcpClientConfiguration
         val tag = "ip"
-        EditDialog(this)
+        EditDialog(this).create()
             .setTittle(resources.getString(R.string.prompt))
             .setMsg(resources.getString(R.string.target_ip_address))
             .addEdit(tag, cc.serverIpAddress, resources.getString(R.string.please_input_ip_address))
@@ -82,14 +81,14 @@ class TcpClientSettingActivity : BaseSettingActivity() {
                     dialog.dismiss()
                 }
             }
-            .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
-            .create().show()
+            .addAction(resources.getString(R.string.cancel))
+            .show()
     }
 
     fun setTargetPort(view: View) {
         val cc = binding.contentBase.config as TcpClientConfiguration
         val tag = "port"
-        EditDialog(this)
+        EditDialog(this).create()
             .setTittle(resources.getString(R.string.prompt))
             .setMsg(resources.getString(R.string.target_port))
             .addEdit(tag, "${cc.serverPort}", resources.getString(R.string.please_input_port))
@@ -111,7 +110,7 @@ class TcpClientSettingActivity : BaseSettingActivity() {
                     }
                 }
             }
-            .addAction(resources.getString(R.string.cancel), ButtonStyle.NORMAL, null)
-            .create().show()
+            .addAction(resources.getString(R.string.cancel))
+            .show()
     }
 }

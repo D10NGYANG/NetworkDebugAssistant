@@ -4,12 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="isConnect"
             type="boolean" />
         <variable
             name="localIpAddress"
             type="String" />
+        <variable
+            name="isShowSocketList"
+            type="boolean"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -61,12 +65,30 @@
         <Spinner
             android:id="@+id/sp_socket"
             style="@style/Widget.AppCompat.Spinner.Underlined"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="50dp"
             android:background="@drawable/socket_spinner_bg"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="@{isShowSocketList? View.VISIBLE: View.GONE}"
+            app:layout_constraintEnd_toStartOf="@+id/btn_disconnect"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <Button
+            android:id="@+id/btn_disconnect"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/disconnect"
+            android:textSize="14sp"
+            android:textColor="@color/colorToolbarTittle"
+            android:paddingBottom="10dp"
+            android:onClick="disconnectSocket"
+            android:visibility="@{isShowSocketList? View.VISIBLE: View.GONE}"
+            app:layout_constraintStart_toEndOf="@+id/sp_socket"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/sp_socket"
+            app:layout_constraintBottom_toBottomOf="@+id/sp_socket"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -132,7 +154,7 @@
                         android:textColor="@color/colorTextTittle"
                         android:textSize="14sp" />
 
-                    <Switch
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/sw_loop"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
