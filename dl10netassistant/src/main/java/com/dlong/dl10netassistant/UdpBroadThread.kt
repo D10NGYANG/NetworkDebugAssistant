@@ -37,6 +37,7 @@ class UdpBroadThread constructor(
             dgSocket.reuseAddress = true
             dgSocket.bind(InetSocketAddress(mPort))
         } catch (e: Exception) {
+            e.printStackTrace()
             // 启动失败
             listener?.onConnectFailed("")
             listenerLambda?.onConnectFailed("")
@@ -79,6 +80,7 @@ class UdpBroadThread constructor(
                 val packet = DatagramPacket(data, data.size, InetAddress.getByName(address), toPort)
                 dgSocket.send(packet)
             } catch (e: Exception) {
+                e.printStackTrace()
                 listener?.onError(address, e.toString())
                 listenerLambda?.onError(address, e.toString())
             }

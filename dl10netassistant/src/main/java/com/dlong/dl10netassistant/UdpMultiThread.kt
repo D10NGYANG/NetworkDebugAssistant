@@ -35,6 +35,7 @@ class UdpMultiThread constructor(
             mcSocket = MulticastSocket(mPort)
         } catch (e: Exception) {
             // 启动失败
+            e.printStackTrace()
             listener?.onConnectFailed("")
             listenerLambda?.onConnectFailed("")
             return
@@ -78,6 +79,7 @@ class UdpMultiThread constructor(
                 val packet = DatagramPacket(data, data.size, InetAddress.getByName(address), toPort)
                 mcSocket.send(packet)
             } catch (e: Exception) {
+                e.printStackTrace()
                 listener?.onError(address, e.toString())
                 listenerLambda?.onError(address, e.toString())
             }

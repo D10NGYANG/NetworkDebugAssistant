@@ -42,6 +42,7 @@ class TcpServerThread constructor(
             serverSocket.bind(InetSocketAddress(mPort))
         } catch (e: Exception) {
             // 打开服务器失败
+            e.printStackTrace()
             serverSocket = ServerSocket()
             listener?.onConnectFailed("")
             listenerLambda?.onConnectFailed("")
@@ -59,6 +60,7 @@ class TcpServerThread constructor(
                 try {
                     serverSocket.accept()
                 } catch (e: Exception) {
+                    e.printStackTrace()
                     listener?.onError("", e.toString())
                     listenerLambda?.onError("", e.toString())
                     break
@@ -155,6 +157,7 @@ class TcpServerThread constructor(
                 socket.getOutputStream().write(data)
                 socket.getOutputStream().flush()
             } catch (e: Exception) {
+                e.printStackTrace()
                 listener?.onError(address, e.toString())
                 listenerLambda?.onError(address, e.toString())
             }
@@ -170,6 +173,7 @@ class TcpServerThread constructor(
                     socket.getOutputStream().flush()
                 }
             } catch (e: Exception) {
+                e.printStackTrace()
                 listener?.onError("", e.toString())
                 listenerLambda?.onError("", e.toString())
             }
@@ -181,6 +185,7 @@ class TcpServerThread constructor(
         try {
             serverSocket.close()
         } catch (e: Exception) {
+            e.printStackTrace()
             listener?.onError("", e.toString())
             listenerLambda?.onError("", e.toString())
         }

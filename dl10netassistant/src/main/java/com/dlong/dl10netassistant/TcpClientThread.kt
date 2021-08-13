@@ -32,6 +32,7 @@ class TcpClientThread constructor(
             socket = Socket(mAddress, mPort)
             socket.reuseAddress = true
         } catch (e: Exception) {
+            e.printStackTrace()
             // 连接失败
             socket = Socket()
             listener?.onConnectFailed(mAddress)
@@ -78,6 +79,7 @@ class TcpClientThread constructor(
                 socket.getOutputStream()?.write(data)
                 socket.getOutputStream()?.flush()
             } catch (e: Exception) {
+                e.printStackTrace()
                 listener?.onError(mAddress, e.toString())
                 listenerLambda?.onError(mAddress, e.toString())
             }
