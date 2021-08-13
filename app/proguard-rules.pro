@@ -77,6 +77,10 @@
 -assumenosideeffects class kotlin.jvm.internal.Intrinsics {
     static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
 }
+# 协程混淆
+-keepclassmembernames class kotlinx.** {
+    volatile <fields>;
+}
 #表示不混淆任何包含native方法的类的类名以及native方法名，这个和我们刚才验证的结果是一致
 -keepclasseswithmembernames class * {
  native <methods>;
@@ -160,6 +164,10 @@
 # 弹窗工具
 -keep class com.dlong.dialog.** {*;}
 -dontwarn com.dlong.dialog.**
+
+# 字符串、字节、类处理
+-keep class com.d10ng.stringlib.** {*;}
+-dontwarn com.d10ng.stringlib.**
 
 # 保留实体类
 -keep class com.dlong.networkdebugassistant.bean.** {*;}
