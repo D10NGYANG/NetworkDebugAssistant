@@ -11,9 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.bean.HistoryInfo
 import com.dlong.networkdebugassistant.databinding.ItemHistoryBinding
-import com.dlong.networkdebugassistant.utils.AppUtils
-import kotlinx.android.synthetic.main.item_file.view.*
-
 /**
  * @author D10NG
  * @date on 2019-12-07 14:53

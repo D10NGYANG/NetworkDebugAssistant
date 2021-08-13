@@ -11,6 +11,8 @@ import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.databinding.ActivityPingBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -39,14 +41,14 @@ class PingActivity : BaseActivity() {
         if (address.isNullOrEmpty()) {
             return
         }
-        ping(address).observe(this, {
-            binding.txtReceive.append(it)
-        })
-        val dialog = JustLoadDialog(this).create().show()
         GlobalScope.launch {
+            ping(address).collect {
+                withContext(Dispatchers.Main) {
+                    binding.txtReceive.append(it)
+                }
+            }
             val isSuccess = pingOnce(address)
             withContext(Dispatchers.Main) {
-                dialog.dismiss()
                 showToast("PING测试结果=$isSuccess")
             }
         }

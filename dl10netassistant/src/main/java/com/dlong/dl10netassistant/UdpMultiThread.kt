@@ -1,7 +1,5 @@
 package com.dlong.dl10netassistant
 
-import android.content.Context
-import android.net.wifi.WifiManager
 import java.net.*
 
 /**
@@ -11,35 +9,26 @@ import java.net.*
  * @date on 2019-12-09 10:24
  */
 class UdpMultiThread constructor(
-    // 上下文
-    private val mContext: Context,
     // 组播地址
     private val multiAddress: String,
     // 端口
     private val mPort: Int
 ) : BaseNetThread() {
 
-    constructor(mContext: Context, multiAddress: String, mPort: Int, listener: OnNetThreadListener): this(mContext, multiAddress, mPort) {
+    constructor(multiAddress: String, mPort: Int, listener: OnNetThreadListener): this(multiAddress, mPort) {
         super.setThreadListener(listener)
     }
 
-    constructor(mContext: Context, multiAddress: String, mPort: Int, listener: NetThreadListener.() -> Unit): this(mContext, multiAddress, mPort) {
+    constructor(multiAddress: String, mPort: Int, listener: NetThreadListener.() -> Unit): this(multiAddress, mPort) {
         super.setThreadListener(listener)
     }
 
     private lateinit var mcSocket: MulticastSocket
-    /** Wi-Fi锁 */
-    private lateinit var mLock: WifiManager.MulticastLock
     /** 运行标记位 */
     private var isRun = false
 
     override fun run() {
         super.run()
-
-        // 创建锁
-        val manager = mContext.applicationContext
-            .getSystemService(Context.WIFI_SERVICE) as WifiManager
-        mLock = manager.createMulticastLock("udp multi wifi")
 
         try {
             // 启动端口
@@ -64,7 +53,6 @@ class UdpMultiThread constructor(
         val by = ByteArray(1024)
         while (isRun) {
             // 循环等待接收
-            acquireLock()
             packet = DatagramPacket(by, by.size)
             mcSocket.receive(packet)
 
@@ -80,28 +68,11 @@ class UdpMultiThread constructor(
         mcSocket.leaveGroup(group)
         mcSocket.disconnect()
         mcSocket.close()
-        releaseLock()
         listener?.onDisconnect("")
         listenerLambda?.onDisconnect("")
     }
-
-    @Synchronized
-    private fun acquireLock() {
-        if (!mLock.isHeld) {
-            mLock.acquire()
-        }
-    }
-
-    @Synchronized
-    private fun releaseLock() {
-        if (!mLock.isHeld) {
-            mLock.release()
-        }
-    }
-
     override fun send(address: String, toPort: Int, data: ByteArray) {
         super.send(address, toPort, data)
-        acquireLock()
         Thread(Runnable {
             try {
                 val packet = DatagramPacket(data, data.size, InetAddress.getByName(address), toPort)

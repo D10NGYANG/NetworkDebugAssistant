@@ -1,7 +1,11 @@
 package com.dlong.dl10netassistant
 
-import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -12,32 +16,26 @@ import kotlin.coroutines.suspendCoroutine
  * PING
  * @param address String 地址
  * @param count Int 测试次数
- * @return MutableLiveData<String>
+ * @return Flow<String>
  */
-fun ping(address: String, count: Int = 6): MutableLiveData<String> {
-    var live: MutableLiveData<String>? = MutableLiveData("")
-    GlobalScope.launch {
-        try {
-            val process = Runtime.getRuntime().exec("ping -c $count $address")
-            val inS = process.inputStream
-            val reader = BufferedReader(InputStreamReader(inS))
-            var line: String?
-            do {
-                line = reader.readLine()
-                if (line != null) {
-                    live?.postValue("$line\n")
-                } else {
-                    break
-                }
-            } while (true)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            live?.postValue(e.message)
-        } finally {
-            live = null
+fun ping(address: String, count: Int = 6): Flow<String> {
+    return flow {
+        val process = Runtime.getRuntime().exec("ping -c $count $address")
+        val inS = process.inputStream
+        val reader = BufferedReader(InputStreamReader(inS))
+        var line: String?
+        do {
+            line = reader.readLine()
+            if (line != null) {
+                emit("$line\n")
+            } else {
+                break
+            }
+        } while (true)
+    }.flowOn(Dispatchers.IO)
+        .catch { t: Throwable ->
+            emit("catch error ${t.message}\n")
         }
-    }
-    return live!!
 }
 
 /**
@@ -47,7 +45,7 @@ fun ping(address: String, count: Int = 6): MutableLiveData<String> {
  */
 suspend fun pingOnce(address: String): Boolean {
     return suspendCoroutine { cont ->
-        GlobalScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             try {
                 val process = Runtime.getRuntime().exec("ping -c 1 $address")
                 cont.resume(process.waitFor() == 0)

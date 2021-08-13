@@ -1,7 +1,5 @@
 package com.dlong.dl10netassistant
 
-import android.content.Context
-import android.net.wifi.WifiManager
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
@@ -14,33 +12,24 @@ import java.net.InetSocketAddress
  * @date on 2019-12-06 14:59
  */
 class UdpBroadThread constructor(
-    // 上下文
-    private val mContext: Context,
     // 端口
     private val mPort: Int
 ) : BaseNetThread() {
 
-    constructor(mContext: Context, mPort: Int, listener: OnNetThreadListener): this(mContext, mPort) {
+    constructor(mPort: Int, listener: OnNetThreadListener): this(mPort) {
         super.setThreadListener(listener)
     }
 
-    constructor(mContext: Context, mPort: Int, listener: NetThreadListener.() -> Unit): this(mContext, mPort) {
+    constructor(mPort: Int, listener: NetThreadListener.() -> Unit): this(mPort) {
         super.setThreadListener(listener)
     }
 
     private lateinit var dgSocket: DatagramSocket
-    /** Wi-Fi锁 */
-    private lateinit var mLock: WifiManager.MulticastLock
     /** 运行标记位 */
     private var isRun = false
 
     override fun run() {
         super.run()
-
-        // 创建锁
-        val manager = mContext.applicationContext
-            .getSystemService(Context.WIFI_SERVICE) as WifiManager
-        mLock = manager.createMulticastLock("udp broad wifi")
 
         try {
             // 启动端口
@@ -62,7 +51,6 @@ class UdpBroadThread constructor(
         val by = ByteArray(1024)
         while (isRun) {
             // 循环等待接收
-            acquireLock()
             packet = DatagramPacket(by, by.size)
             dgSocket.receive(packet)
             // 拿到广播地址
@@ -76,23 +64,8 @@ class UdpBroadThread constructor(
         // 关闭
         dgSocket.disconnect()
         dgSocket.close()
-        releaseLock()
         listener?.onDisconnect("")
         listenerLambda?.onDisconnect("")
-    }
-
-    @Synchronized
-    private fun acquireLock() {
-        if (!mLock.isHeld) {
-            mLock.acquire()
-        }
-    }
-
-    @Synchronized
-    private fun releaseLock() {
-        if (!mLock.isHeld) {
-            mLock.release()
-        }
     }
 
     override fun isConnected(): Boolean {
@@ -101,7 +74,6 @@ class UdpBroadThread constructor(
 
     override fun send(address: String, toPort: Int, data: ByteArray) {
         super.send(address, toPort, data)
-        acquireLock()
         Thread(Runnable {
             try {
                 val packet = DatagramPacket(data, data.size, InetAddress.getByName(address), toPort)

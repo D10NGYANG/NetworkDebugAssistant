@@ -51,14 +51,9 @@ allprojects {
 ```kotlin
 dependencies {
    // 必须
-   implementation 'com.github.D10NGYANG:NetworkDebugAssistant:0.1.6'
-   
-   // 如果需要用到PING接口需要引入以下库
-   // Lifecycle components
-   implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-   // Coroutines
-   api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
-   api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
+   implementation 'com.github.D10NGYANG:NetworkDebugAssistant:0.1.7'
+   // 必须 协程
+   implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1"
 }
 ```
 
@@ -309,10 +304,13 @@ val thread = TcpServerThread(12345) {
 PING并且查看详细结果
 ```kotlin
 // 连续PING几次，监听返回内容，进行打印显示
-ping(address, 6).observe(this, {
-   // 显示PING数据
-   binding.txtReceive.append(it)
-})
+GlobalScope.launch {
+   ping(address).collect {
+      withContext(Dispatchers.Main) {
+         binding.txtReceive.append(it)
+      }
+   }
+}
 ```
 PING一次得到是否通过的结果
 ```kotlin

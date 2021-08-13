@@ -23,7 +23,7 @@ class UdpBroadActivity : BaseSendReceiveActivity() {
     override fun initThread() {
         super.initThread()
         val cc = config as UdpBroadConfiguration
-        thread = UdpBroadThread(this, cc.localPort, netListener)
+        thread = UdpBroadThread( cc.localPort, netListener)
     }
 
     override fun openSetting() {

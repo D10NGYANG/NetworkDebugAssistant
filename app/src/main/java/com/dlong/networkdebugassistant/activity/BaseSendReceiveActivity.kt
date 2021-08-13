@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import com.d10ng.stringlib.toHexString
 import com.dlong.dialog.*
 import com.dlong.dl10netassistant.BaseNetThread
 import com.dlong.dl10netassistant.OnNetThreadListener
@@ -327,7 +328,7 @@ open class BaseSendReceiveActivity : BaseActivity() {
         }
         if (config.isReceiveHex) {
             for (byte in receiveInfo.byteData.iterator()) {
-                builder.append(StringUtils.upToNString(byte.toUInt().toString(16), 2))
+                builder.append(byte.toHexString())
                 builder.append(" ")
             }
         } else {

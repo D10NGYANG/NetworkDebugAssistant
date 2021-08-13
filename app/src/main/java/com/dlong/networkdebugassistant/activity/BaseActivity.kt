@@ -10,16 +10,15 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.d10ng.stringlib.toHexString
 import com.dlong.networkdebugassistant.app.BaseHandler
 import com.dlong.networkdebugassistant.bean.ReceiveInfo
 import com.dlong.networkdebugassistant.utils.DateUtils
-import com.dlong.networkdebugassistant.utils.StringUtils
 import com.google.android.material.snackbar.Snackbar
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStreamWriter
-import java.lang.StringBuilder
 
 /**
  * @author D10NG
@@ -97,7 +96,7 @@ open class BaseActivity : AppCompatActivity(), BaseHandler.BaseHandlerCallBack {
         builder.append(receive.port).append("]")
         if (isHex) {
             for (byte in receive.byteData.iterator()) {
-                builder.append(StringUtils.upToNString(byte.toUInt().toString(16), 2))
+                builder.append(byte.toHexString())
                 builder.append(" ")
             }
         } else {

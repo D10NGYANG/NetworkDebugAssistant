@@ -27,7 +27,7 @@ class UdpMultiActivity : BaseSendReceiveActivity() {
     override fun initThread() {
         super.initThread()
         val cc = config as UdpMultiConfiguration
-        thread = UdpMultiThread(this, cc.targetIpAddress, cc.localPort, netListener)
+        thread = UdpMultiThread(cc.targetIpAddress, cc.localPort, netListener)
     }
 
     override fun openSetting() {

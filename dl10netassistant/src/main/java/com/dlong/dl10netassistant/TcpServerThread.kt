@@ -1,6 +1,5 @@
 package com.dlong.dl10netassistant
 
-import android.util.Log
 import java.net.InetSocketAddress
 import java.net.ServerSocket
 import java.net.Socket
@@ -66,7 +65,7 @@ class TcpServerThread constructor(
                 }
             if (socket != null) {
                 val key = socket.remoteSocketAddress.toString()
-                Log.e("Tcp Server Accept", "address=$key")
+                println("Tcp Server Accept, address=$key")
                 socketList[key] = socket
                 // 开始循环监听
                 startAcceptSocket(key, socket)
@@ -105,7 +104,7 @@ class TcpServerThread constructor(
                 }
             }
             // 断开连接
-            Log.e("TCP SERVER", "$key 已断开连接")
+            println("TCP SERVER, $key 已断开连接")
             listener?.onDisconnect(socket.remoteSocketAddress.toString())
             listenerLambda?.onDisconnect(socket.remoteSocketAddress.toString())
             socketList.remove(key)
