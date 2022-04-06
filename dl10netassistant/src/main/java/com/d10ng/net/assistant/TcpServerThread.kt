@@ -1,4 +1,4 @@
-package com.dlong.dl10netassistant
+package com.d10ng.net.assistant
 
 import java.net.InetSocketAddress
 import java.net.ServerSocket
@@ -23,7 +23,7 @@ class TcpServerThread constructor(
         super.setThreadListener(listener)
     }
 
-    private lateinit var serverSocket: ServerSocket
+    private var serverSocket: ServerSocket? = null
     /** 连接列表 */
     private val socketList: MutableMap<String, Socket> = mutableMapOf()
     /** 运行标记位 */
@@ -37,13 +37,13 @@ class TcpServerThread constructor(
         super.run()
         try {
             // 打开服务器
-            serverSocket = ServerSocket()
-            serverSocket.reuseAddress = true
-            serverSocket.bind(InetSocketAddress(mPort))
+            serverSocket = ServerSocket().apply {
+                reuseAddress = true
+                bind(InetSocketAddress(mPort))
+            }
         } catch (e: Exception) {
             // 打开服务器失败
             e.printStackTrace()
-            serverSocket = ServerSocket()
             listener?.onConnectFailed("")
             listenerLambda?.onConnectFailed("")
             listener?.onError("", e.toString())
@@ -58,7 +58,7 @@ class TcpServerThread constructor(
         while (isRun) {
             val socket =
                 try {
-                    serverSocket.accept()
+                    serverSocket!!.accept()
                 } catch (e: Exception) {
                     e.printStackTrace()
                     listener?.onError("", e.toString())
@@ -84,7 +84,7 @@ class TcpServerThread constructor(
         // 有客户端连接进来
         listener?.onAcceptSocket(socket.remoteSocketAddress.toString())
         listenerLambda?.onAcceptSocket(socket.remoteSocketAddress.toString())
-        Thread(Runnable {
+        Thread {
             val inputStream = socket.getInputStream()
             while (isRun && socket.isConnected) {
                 val buffer = ByteArray(1024)
@@ -99,10 +99,14 @@ class TcpServerThread constructor(
                 }
                 if (len > 0) {
                     // 接受数据
-                    listener?.onReceive(socket.remoteSocketAddress.toString(),
-                        socket.port, curTime, buffer.copyOfRange(0, len))
-                    listenerLambda?.onReceive(socket.remoteSocketAddress.toString(),
-                        socket.port, curTime, buffer.copyOfRange(0, len))
+                    listener?.onReceive(
+                        socket.remoteSocketAddress.toString(),
+                        socket.port, curTime, buffer.copyOfRange(0, len)
+                    )
+                    listenerLambda?.onReceive(
+                        socket.remoteSocketAddress.toString(),
+                        socket.port, curTime, buffer.copyOfRange(0, len)
+                    )
                 }
             }
             // 断开连接
@@ -110,7 +114,7 @@ class TcpServerThread constructor(
             listener?.onDisconnect(socket.remoteSocketAddress.toString())
             listenerLambda?.onDisconnect(socket.remoteSocketAddress.toString())
             socketList.remove(key)
-        }).start()
+        }.start()
     }
 
     /** 获取名字列表 */
@@ -151,9 +155,9 @@ class TcpServerThread constructor(
 
     override fun send(address: String, toPort: Int, data: ByteArray) {
         super.send(address, toPort, data)
-        Thread(Runnable {
+        Thread {
             try {
-                val socket = socketList["/$address:$toPort"]?: return@Runnable
+                val socket = socketList["/$address:$toPort"]?: return@Thread
                 socket.getOutputStream().write(data)
                 socket.getOutputStream().flush()
             } catch (e: Exception) {
@@ -161,12 +165,12 @@ class TcpServerThread constructor(
                 listener?.onError(address, e.toString())
                 listenerLambda?.onError(address, e.toString())
             }
-        }).start()
+        }.start()
     }
 
     override fun send(data: ByteArray) {
         super.send(data)
-        Thread(Runnable {
+        Thread {
             try {
                 for (socket in socketList.values) {
                     socket.getOutputStream().write(data)
@@ -177,13 +181,13 @@ class TcpServerThread constructor(
                 listener?.onError("", e.toString())
                 listenerLambda?.onError("", e.toString())
             }
-        }).start()
+        }.start()
     }
 
     override fun close() {
         isRun = false
         try {
-            serverSocket.close()
+            serverSocket?.close()
         } catch (e: Exception) {
             e.printStackTrace()
             listener?.onError("", e.toString())

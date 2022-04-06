@@ -9,8 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.d10ng.stringlib.toHexString
 import com.dlong.dialog.*
-import com.dlong.dl10netassistant.BaseNetThread
-import com.dlong.dl10netassistant.OnNetThreadListener
+import com.d10ng.net.assistant.BaseNetThread
+import com.d10ng.net.assistant.OnNetThreadListener
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.bean.BaseConfiguration
 import com.dlong.networkdebugassistant.bean.HistoryInfo

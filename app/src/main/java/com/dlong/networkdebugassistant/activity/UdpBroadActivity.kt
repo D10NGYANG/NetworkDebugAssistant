@@ -1,8 +1,7 @@
 package com.dlong.networkdebugassistant.activity
 
 import android.os.Bundle
-import android.view.View
-import com.dlong.dl10netassistant.UdpBroadThread
+import com.d10ng.net.assistant.UdpBroadThread
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.bean.UdpBroadConfiguration
 import com.dlong.networkdebugassistant.constant.DBConstant

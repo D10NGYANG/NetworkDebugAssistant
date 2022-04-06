@@ -1,4 +1,4 @@
-package com.dlong.dl10netassistant
+package com.d10ng.net.assistant
 
 import java.net.DatagramPacket
 import java.net.DatagramSocket
@@ -24,7 +24,7 @@ class UdpBroadThread constructor(
         super.setThreadListener(listener)
     }
 
-    private lateinit var dgSocket: DatagramSocket
+    private var dgSocket: DatagramSocket? = null
     /** 运行标记位 */
     private var isRun = false
 
@@ -33,9 +33,10 @@ class UdpBroadThread constructor(
 
         try {
             // 启动端口
-            dgSocket = DatagramSocket(null)
-            dgSocket.reuseAddress = true
-            dgSocket.bind(InetSocketAddress(mPort))
+            dgSocket = DatagramSocket(null).apply {
+                reuseAddress = true
+                bind(InetSocketAddress(mPort))
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             // 启动失败
@@ -51,9 +52,10 @@ class UdpBroadThread constructor(
         var packet: DatagramPacket
         val by = ByteArray(1024)
         while (isRun) {
+            println("test, ${dgSocket?.isConnected}")
             // 循环等待接收
             packet = DatagramPacket(by, by.size)
-            dgSocket.receive(packet)
+            dgSocket?.receive(packet)
             // 拿到广播地址
             val address = packet.address.toString().replace("/", "")
             // 拿到数据
@@ -63,8 +65,8 @@ class UdpBroadThread constructor(
             listenerLambda?.onReceive(address, packet.port, curTime, data)
         }
         // 关闭
-        dgSocket.disconnect()
-        dgSocket.close()
+        dgSocket?.disconnect()
+        dgSocket?.close()
         listener?.onDisconnect("")
         listenerLambda?.onDisconnect("")
     }
@@ -75,20 +77,20 @@ class UdpBroadThread constructor(
 
     override fun send(address: String, toPort: Int, data: ByteArray) {
         super.send(address, toPort, data)
-        Thread(Runnable {
+        Thread {
             try {
                 val packet = DatagramPacket(data, data.size, InetAddress.getByName(address), toPort)
-                dgSocket.send(packet)
+                dgSocket?.send(packet)
             } catch (e: Exception) {
                 e.printStackTrace()
                 listener?.onError(address, e.toString())
                 listenerLambda?.onError(address, e.toString())
             }
-        }).start()
+        }.start()
     }
 
     override fun close() {
-        super.close()
         isRun = false
+        super.close()
     }
 }

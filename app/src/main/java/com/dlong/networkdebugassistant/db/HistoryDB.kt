@@ -11,7 +11,7 @@ import com.dlong.networkdebugassistant.db.dao.HistoryDao
  * @author D10NG
  * @date on 2019-12-07 11:12
  */
-@Database(entities = [HistoryInfo::class], version = 1)
+@Database(entities = [HistoryInfo::class], version = 1, exportSchema = false)
 abstract class HistoryDB : RoomDatabase() {
 
     abstract fun getHistoryDao() : HistoryDao

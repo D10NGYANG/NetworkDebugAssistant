@@ -1,6 +1,8 @@
-package com.dlong.dl10netassistant
+package com.d10ng.net.assistant
 
-import java.net.*
+import java.net.DatagramPacket
+import java.net.InetAddress
+import java.net.MulticastSocket
 
 /**
  * udp 组播线程
@@ -23,7 +25,7 @@ class UdpMultiThread constructor(
         super.setThreadListener(listener)
     }
 
-    private lateinit var mcSocket: MulticastSocket
+    private var mcSocket: MulticastSocket? = null
     /** 运行标记位 */
     private var isRun = false
 
@@ -45,9 +47,9 @@ class UdpMultiThread constructor(
         listenerLambda?.onConnected("")
         // 加入组
         val group = InetAddress.getByName(multiAddress)
-        mcSocket.joinGroup(group)
-        mcSocket.timeToLive = 5
-        mcSocket.loopbackMode = false
+        mcSocket?.joinGroup(group)
+        mcSocket?.timeToLive = 5
+        mcSocket?.loopbackMode = false
 
         isRun = true
         var packet: DatagramPacket
@@ -55,7 +57,7 @@ class UdpMultiThread constructor(
         while (isRun) {
             // 循环等待接收
             packet = DatagramPacket(by, by.size)
-            mcSocket.receive(packet)
+            mcSocket?.receive(packet)
 
             // 拿到广播地址
             val address = packet.address.toString().replace("/", "")
@@ -66,24 +68,24 @@ class UdpMultiThread constructor(
             listenerLambda?.onReceive(address, packet.port, curTime, data)
         }
         // 关闭
-        mcSocket.leaveGroup(group)
-        mcSocket.disconnect()
-        mcSocket.close()
+        mcSocket?.leaveGroup(group)
+        mcSocket?.disconnect()
+        mcSocket?.close()
         listener?.onDisconnect("")
         listenerLambda?.onDisconnect("")
     }
     override fun send(address: String, toPort: Int, data: ByteArray) {
         super.send(address, toPort, data)
-        Thread(Runnable {
+        Thread {
             try {
                 val packet = DatagramPacket(data, data.size, InetAddress.getByName(address), toPort)
-                mcSocket.send(packet)
+                mcSocket?.send(packet)
             } catch (e: Exception) {
                 e.printStackTrace()
                 listener?.onError(address, e.toString())
                 listenerLambda?.onError(address, e.toString())
             }
-        }).start()
+        }.start()
     }
 
     override fun isConnected(): Boolean {

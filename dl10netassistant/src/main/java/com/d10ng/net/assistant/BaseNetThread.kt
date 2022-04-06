@@ -1,4 +1,4 @@
-package com.dlong.dl10netassistant
+package com.d10ng.net.assistant
 
 /**
  * 基础线程工具

@@ -1,4 +1,4 @@
-package com.dlong.dl10netassistant
+package com.d10ng.net.assistant
 
 import java.net.Socket
 
@@ -23,18 +23,18 @@ class TcpClientThread constructor(
         super.setThreadListener(listener)
     }
 
-    private lateinit var socket: Socket
+    private var socket: Socket? = null
 
     override fun run() {
         super.run()
         try {
             // 连接服务器
-            socket = Socket(mAddress, mPort)
-            socket.reuseAddress = true
+            socket = Socket(mAddress, mPort).apply {
+                reuseAddress = true
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             // 连接失败
-            socket = Socket()
             listener?.onConnectFailed(mAddress)
             listenerLambda?.onConnectFailed(mAddress)
             return
@@ -44,8 +44,8 @@ class TcpClientThread constructor(
         listenerLambda?.onConnected(mAddress)
 
         // 获取输入流
-        val inputStream = socket.getInputStream()
-        while (socket.isConnected){
+        val inputStream = socket?.getInputStream()
+        while (isConnected()){
             val buffer = ByteArray(1024)
             val len =
                 try {
@@ -68,26 +68,26 @@ class TcpClientThread constructor(
     }
 
     override fun isConnected(): Boolean {
-        return socket.isConnected
+        return socket?.isConnected == true
     }
 
     override fun send(data: ByteArray) {
         super.send(data)
         if (!isConnected()) return
-        Thread(Runnable {
+        Thread {
             try {
-                socket.getOutputStream()?.write(data)
-                socket.getOutputStream()?.flush()
+                socket?.getOutputStream()?.write(data)
+                socket?.getOutputStream()?.flush()
             } catch (e: Exception) {
                 e.printStackTrace()
                 listener?.onError(mAddress, e.toString())
                 listenerLambda?.onError(mAddress, e.toString())
             }
-        }).start()
+        }.start()
     }
 
     override fun close() {
+        socket?.close()
         super.close()
-        socket.close()
     }
 }

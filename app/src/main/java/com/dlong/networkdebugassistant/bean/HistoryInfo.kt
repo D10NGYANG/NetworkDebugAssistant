@@ -21,7 +21,7 @@ data class HistoryInfo(
     // ID，主键，自增长
     @PrimaryKey(autoGenerate = true)
     @DLField
-    var hId : Int = -1 ,
+    var hId : Long = 0,
 
     /** 发送文本 */
     @DLField

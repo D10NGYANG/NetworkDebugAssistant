@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.View
 import androidx.databinding.DataBindingUtil
-import com.dlong.dialog.JustLoadDialog
-import com.dlong.dl10netassistant.ping
-import com.dlong.dl10netassistant.pingOnce
+import com.d10ng.net.assistant.ping
+import com.d10ng.net.assistant.pingOnce
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.databinding.ActivityPingBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 

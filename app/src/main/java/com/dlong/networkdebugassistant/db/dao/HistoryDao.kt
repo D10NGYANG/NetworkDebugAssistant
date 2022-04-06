@@ -17,7 +17,7 @@ interface HistoryDao {
 
     // 插入
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(info: HistoryInfo)
+    suspend fun insert(info: HistoryInfo): Long
 
     // 修改
     @Update(onConflict = OnConflictStrategy.REPLACE)

@@ -1,8 +1,7 @@
 package com.dlong.networkdebugassistant.activity
 
 import android.os.Bundle
-import android.view.View
-import com.dlong.dl10netassistant.TcpClientThread
+import com.d10ng.net.assistant.TcpClientThread
 import com.dlong.networkdebugassistant.R
 import com.dlong.networkdebugassistant.bean.TcpClientConfiguration
 import com.dlong.networkdebugassistant.constant.DBConstant

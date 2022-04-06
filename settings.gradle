@@ -1,3 +1,0 @@
-include ':app'
-rootProject.name='NetworkDebugAssistant'
-include ':dl10netassistant'
